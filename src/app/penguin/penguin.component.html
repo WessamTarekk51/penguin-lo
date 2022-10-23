@@ -1,0 +1,26 @@
+<div class="penguin">
+  <div class="music"></div>
+  <div class="button-check" (click)="checkanswer()" ></div>
+  <div class="border">
+    <div class="question">
+      <p>5 + </p>
+      <p>10</p>
+      <input  class="wrong" type="text" formControlName="value" index="1" (click)="handClick($event)"  (change)="checkvalue($event)">
+      <input  class="wrong" type="text" formControlName="value" index="2" (click)="handClick($event)"  (change)="checkvalue($event)">
+
+    </div>
+  </div>
+  <ng-lottie
+  [options]="options"
+  (animationCreated)="onAnimate($event)">
+</ng-lottie>
+</div>
+
+<!-- <div *ngIf="question == true">
+  <app-feedback></app-feedback>
+</div> -->
+
+
+
+
+

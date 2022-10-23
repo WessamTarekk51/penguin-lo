@@ -1,0 +1,60 @@
+
+.penguin{
+
+.border {
+  position: absolute;
+  width: 75%;
+  height: 82%;
+  right: 1.5%;
+  top: 9.5%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  background-image: url(../../assets/penguin/question.png);
+  .question{
+    width: 72%;
+    height: 72%;
+    margin: 0 auto;
+    position: absolute;
+    pointer-events: auto;
+    top: 13%;
+    right: 13%;
+  }
+}
+.button-check {
+  z-index: 5;
+  position: absolute;
+  left: 29%;
+  top: 9%;
+  background-image: url(../../assets/penguin/ture.png);
+  width: 13vh;
+  height: 14vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.music {
+  position: absolute;
+  left: 1vw;
+  top: 1vw;
+  background-image: url(../../assets/penguin/music.png);
+  width: 10vh;
+  height: 10vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+}}
+
+input{
+  font-size: 10vw;
+  width: 20vw;
+  height: 10vw;
+}
+.true{
+  background-color: green;
+}
+.false{
+  background-color: red;
+}
+
+
+

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {  Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'penguin';
+  title = 'project-penguin';
+  constructor(
+    private router: Router,
+  ) {}
+  start(event: any){
+    event.target.classList.remove('startButton')
+    this.router.navigate(['/penguin']);
+  }
 }
+
