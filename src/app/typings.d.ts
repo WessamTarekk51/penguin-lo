@@ -6,6 +6,10 @@ export interface value {
   active:boolean,
   id: number,
   parag: string,
+  parag2: string,
+  parag3: string,
+  parag4: string,
+
   content: Content[]
 }
 

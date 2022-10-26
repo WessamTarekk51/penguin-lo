@@ -28,15 +28,53 @@
     justify-content: center;
 
     .question {
-      width: 72%;
+      width: 70%;
       height: auto;
       pointer-events: auto;
       display: none;
+      flex-wrap: wrap;
+      align-items: center;
+      direction: rtl;
+
 
       &.active {
         opacity: 1;
         display: flex;
         pointer-events: auto;
+      }
+      p{
+        font-size: 2.5vw;
+        color: #204a66 !important;
+        font-weight: bold;
+        span.number{
+          font-family: 'Times New Roman', Times, serif;
+        }
+      }
+
+      input {
+        background-image: url(/assets/penguin/input.png);
+        background-repeat: no-repeat;
+        background-size: contain;
+        border: 0;
+        width: 10vw;
+        height: 5vw;
+        background-color: unset;
+        outline: none;
+        font-size: 2.5vw;
+        text-align: center;
+        font-weight: bold;
+        color: #ffff;
+        margin: 1vw;
+
+        &.true{
+          background-image: url(/assets/penguin/true.png);
+          pointer-events: none;
+
+        }
+        &.false{
+          background-image: url(/assets/penguin/false.png);
+
+        }
       }
     }
   }
@@ -58,16 +96,25 @@
     position: absolute;
     left: 1vw;
     top: 1vw;
-    background-image: url(../../assets/penguin/music.png);
     width: 10vh;
     height: 10vh;
     background-size: contain;
     background-repeat: no-repeat;
+
+    &.play {
+      background-image: url(../../assets/penguin/mute-music.png);
+    }
+
+    &.mute {
+      background-image: url(../../assets/penguin/music.png);
+    }
   }
 
 
 
+
 }
+
 .penguinCharacter {
   position: absolute;
   left: 1%;
@@ -75,19 +122,6 @@
   width: 27%;
   height: 47%;
 
-}
-input {
-  font-size: 10vw;
-  width: 20vw;
-  height: 10vw;
-}
-
-.true {
-  background-color: green;
-}
-
-.false {
-  background-color: red;
 }
 
 .nextContent {

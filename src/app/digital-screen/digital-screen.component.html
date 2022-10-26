@@ -5,14 +5,21 @@
 
   <div class="digital-screen" *ngIf="startLo">
   <div class="penguin">
-    <div class="music"></div>
+    <div class="music"  (click)="muteMusic()" [ngClass]="music ? 'play' : 'mute'">
+    </div>
     <div class="button-check" (click)="checkanswer()"></div>
     <div class="border">
 
         <div class="question" *ngFor="let e of  this.itemJson[0].items" [ngClass]="{'active': e.active}">
-          <p innerHTML="{{e.parag}}"></p>
-          <input class="wrong" type="text" index="1" (click)="handClick($event, e)" (change)="checkvalue($event,e)">
-          <input class="wrong" type="text" index="2" (click)="handClick($event, e)" (change)="checkvalue($event,e)">
+          <p class="text" innerHTML="{{e.parag}}"></p>
+          <input class="wrong number" type="text" index="1" (click)="handClick($event, e)" (change)="checkvalue($event,e)">
+          <p class="text" innerHTML="{{e.parag2}}"></p>
+          <input class="wrong text" type="text" index="2" (click)="handClick($event, e)" (change)="checkvalue($event,e)">
+          <p class="text" innerHTML="{{e.parag3}}"></p>
+          <input class="wrong text" type="text" index="3" (click)="handClick($event, e)" (change)="checkvalue($event,e)">
+          <p class="text" innerHTML="{{e.parag4}}"></p>
+
+
         </div>
 
     </div>
@@ -29,6 +36,7 @@
   <div *ngIf="question">
     <div class="nextContent">
       <div class="character" class="show{{counter+1}}">
+
           <div class="buttons">
               <button class="next"  (click)="nextQuestion()"  *ngIf="this.questionsNumber-1 != this.counter"></button>
               <button class="home" (click)="home()" ></button>
