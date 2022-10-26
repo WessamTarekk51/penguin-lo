@@ -107,5 +107,7 @@
       }
     }
   },
-  "defaultProject": "penguin"
+  "cli": {
+    "analytics": "dc01d0de-2d57-454c-a03b-ca82ad7a4a9b"
+  }
 }

@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PenguinComponent } from './penguin/penguin.component';
-import { FeedbackComponent } from './feedback/feedback.component';
 import { LottieModule } from 'ngx-lottie';
 import { BrowserModule } from '@angular/platform-browser';
+import { DigitalScreenComponent } from './digital-screen/digital-screen.component';
 
 
 export function playerFactory(): any {
@@ -13,8 +12,7 @@ export function playerFactory(): any {
 @NgModule({
   declarations: [
     AppComponent,
-    PenguinComponent,
-    FeedbackComponent,
+    DigitalScreenComponent,
   ],
   imports: [
     BrowserModule,

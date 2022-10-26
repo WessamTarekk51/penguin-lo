@@ -1,0 +1,39 @@
+<div class="main">
+  <div *ngIf="!startLo">
+    <div class="startButton" (click)="start($event)"></div>
+  </div>
+
+  <div class="digital-screen" *ngIf="startLo">
+  <div class="penguin">
+    <div class="music"></div>
+    <div class="button-check" (click)="checkanswer()"></div>
+    <div class="border">
+
+        <div class="question" *ngFor="let e of  this.itemJson[0].items" [ngClass]="{'active': e.active}">
+          <p innerHTML="{{e.parag}}"></p>
+          <input class="wrong" type="text" index="1" (click)="handClick($event, e)" (change)="checkvalue($event,e)">
+          <input class="wrong" type="text" index="2" (click)="handClick($event, e)" (change)="checkvalue($event,e)">
+        </div>
+
+    </div>
+
+
+  </div>
+  <div class="penguinCharacter">
+    <ng-lottie [options]="options" (animationCreated)="onAnimate($event)">
+    </ng-lottie>
+  </div>
+  </div>
+
+
+  <div *ngIf="question">
+    <div class="nextContent">
+      <div class="character" class="show{{counter+1}}">
+          <div class="buttons">
+              <button class="next"  (click)="nextQuestion()"  *ngIf="this.questionsNumber-1 != this.counter"></button>
+              <button class="home" (click)="home()" ></button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
