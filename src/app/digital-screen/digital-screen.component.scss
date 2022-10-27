@@ -11,30 +11,44 @@
   background-size: 100%;
   cursor: pointer;
 }
+.digital-screen{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 
 .penguin {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  direction: rtl;
+
   .border {
-    position: absolute;
-    width: 75%;
-    height: 82%;
-    right: 1.5%;
-    top: 9.5%;
-    background-size: contain;
+    position: relative;
+    height: 70vh;
+    width: 100vh;
+    background-size: 100%;
     background-repeat: no-repeat;
     pointer-events: none;
     background-image: url(../../assets/penguin/question.png);
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: fade .3s linear;
+    // left: 7vw;
+
 
     .question {
       width: 70%;
-      height: auto;
+      height: 70%;
+      align-content: center;
       pointer-events: auto;
       display: none;
       flex-wrap: wrap;
       align-items: center;
       direction: rtl;
+      animation: lightTv .5s alternate linear;
 
 
       &.active {
@@ -42,11 +56,13 @@
         display: flex;
         pointer-events: auto;
       }
-      p{
-        font-size: 2.5vw;
+
+      p {
+        font-size: 3vh;
         color: #204a66 !important;
         font-weight: bold;
-        span.number{
+
+        span.number {
           font-family: 'Times New Roman', Times, serif;
         }
       }
@@ -66,24 +82,25 @@
         color: #ffff;
         margin: 1vw;
 
-        &.true{
-          background-image: url(/assets/penguin/true.png);
+        &.true {
+          background-image: url(/assets/penguin/true.png) !important;
           pointer-events: none;
 
         }
-        &.false{
-          background-image: url(/assets/penguin/false.png);
+
+        &.false {
+          background-image: url(/assets/penguin/false.png) !important;
 
         }
       }
     }
-  }
 
+  }
   .button-check {
     z-index: 5;
     position: absolute;
-    left: 29%;
-    top: 9%;
+    right: 55%;
+    top: 14%;
     background-image: url(../../assets/penguin/ture.png);
     width: 13vh;
     height: 14vh;
@@ -91,6 +108,7 @@
     background-repeat: no-repeat;
     cursor: pointer;
   }
+
 
   .music {
     position: absolute;
@@ -100,27 +118,28 @@
     height: 10vh;
     background-size: contain;
     background-repeat: no-repeat;
-
+    user-select: none;
     &.play {
-      background-image: url(../../assets/penguin/mute-music.png);
-    }
-
-    &.mute {
       background-image: url(../../assets/penguin/music.png);
     }
+    &.mute {
+      background-image: url(../../assets/penguin/mute-music.png);
+    }
+  }
+  .penguinCharacter {
+    position: relative;
+    left: -2%;
+    bottom: -4%;
+    width: 45vh;
+    height: 45vh;
+    animation: fade .1s linear
+
+
   }
 
 
 
-
 }
-
-.penguinCharacter {
-  position: absolute;
-  left: 1%;
-  bottom: 17%;
-  width: 27%;
-  height: 47%;
 
 }
 
@@ -216,30 +235,42 @@
 
 }
 
-@-webkit-keyframes fade {
-  from {
-    opacity: 0;
-    width: 0%;
-    height: 0
-  }
 
-  to {
-    opacity: 1;
-    width: 50%;
-    height: 35vw
-  }
-}
 
 @keyframes fade {
   from {
-    opacity: 0;
-    width: 0%;
-    height: 0
+      opacity: 0;
+      width: 0%;
+      height: 0
   }
 
   to {
-    opacity: 1;
-    width: 50%;
-    height: 35vw
+      opacity: 1;
+      width: 50%;
+      height: 35vw
+  }
+}
+@keyframes lightTv {
+  0% {
+      width: 0%;
+      height: 72%;
+      top: 8.5%;
+      right: 15%
+  }
+
+  90% {
+    width: 70%;
+    height: 1%;
+      top: 0%;
+      bottom: 0%;
+      margin: auto
+  }
+
+  100% {
+      width: 70%;
+      height: 0%;
+      top: 0%;
+      bottom: 0%;
+      margin: auto
   }
 }

@@ -10,9 +10,11 @@ import { jsonFile } from '../typings'
   styleUrls: ['./digital-screen.component.scss'],
 })
 export class DigitalScreenComponent implements OnInit {
+  setInterval: any
   question: boolean = false
   startLo: boolean = false
   counter: number = -1
+  numSound: number = -1
   music: boolean = false
   index: any
   rightBox: any
@@ -20,17 +22,23 @@ export class DigitalScreenComponent implements OnInit {
   count: number = 0
   questionsNumber: number = -1
   questionNumber: number = 0
-  bgAudio = new Audio();
+  bgAudio = new Audio()
+  clickBtn = new Audio()
+  wrongAnswer = new Audio()
+  rightAnswer = new Audio()
+  sound = new Audio()
+  screenClick: number = 0
   itemJson: jsonFile[] = [
     {
       items: [
         {
           active: true,
           id: 1,
-          parag:'<span class=text>يوجد</span> <span class="number">86</span> شخصا بالملعب من بينهم <span class="number">2</span> مدرب يريدون تنظيم فريق من <span class="number">11</span> شخص ما الأشخاص المتبقية ',
-          parag2:'=',
-          parag3:'+ 2 -',
-          parag4:'',
+          parag:
+            '<span class=text>يوجد</span> <span class="number">86</span> شخصا بالملعب من بينهم <span class="number">2</span> مدرب يريدون تنظيم فريق من <span class="number">11</span> شخص ما الأشخاص المتبقية ',
+          parag2: '=',
+          parag3: '+ 2 -',
+          parag4: '',
 
           content: [
             {
@@ -54,9 +62,9 @@ export class DigitalScreenComponent implements OnInit {
           active: false,
           id: 2,
           parag: 'hellossss world',
-          parag2:'',
-          parag3:'',
-          parag4:'',
+          parag2: '',
+          parag3: '',
+          parag4: '',
           content: [
             {
               input: {
@@ -74,9 +82,9 @@ export class DigitalScreenComponent implements OnInit {
           active: false,
           id: 2,
           parag: 'hellossss world',
-          parag2:'',
-          parag3:'',
-          parag4:'',
+          parag2: '',
+          parag3: '',
+          parag4: '',
           content: [
             {
               input: {
@@ -102,10 +110,9 @@ export class DigitalScreenComponent implements OnInit {
   }
   ngOnInit(): void {
     this.nextQuestion()
-    this.bgAudio.src = "../../assets/audios/music.mp3";
-    this.muteMusic()
+    this.wrongAnswer.src = '/assets/audios/WrongAnswer.mp3'
+    this.rightAnswer.src = '/assets/audios/RightAnswer.mp3'
   }
-
   animation: any
   animationSegment: AnimationSegment[] = [
     [0, 50],
@@ -121,17 +128,20 @@ export class DigitalScreenComponent implements OnInit {
   muteMusic() {
     this.music = !this.music
     this.bgAudio.loop = true
-    this.bgAudio.paused ? this.bgAudio.play() : this.bgAudio.pause();
+    this.bgAudio.paused ? this.bgAudio.play() : this.bgAudio.pause()
   }
 
-
-
-  handClick(event: any, element: any) {
-    // console.log(event.target.value)
+  maxLength(event: any, element: any) {
     this.index = event.target.getAttribute('index')
     const trueValue = element.content[this.index - 1].input.valid[0]
     let maxLength = trueValue.length
     event.target.setAttribute('maxlength', maxLength)
+  }
+
+  foucs(event: any) {
+    this.clickBtn.src = '../../assets/audios/click_btn.mp3'
+    this.clickBtn.play()
+    this.animation.playSegments([0, 50])
     event.target.classList.remove('false')
     document.querySelectorAll('.false').forEach((el) => {
       el.classList.remove('false')
@@ -162,6 +172,8 @@ export class DigitalScreenComponent implements OnInit {
   }
 
   checkanswer() {
+    this.clickBtn.src = '/assets/audios/click_btn.mp3'
+    this.clickBtn.play()
     this.count = 0
     this.rightBox = document.querySelectorAll('.active .right')
     this.rightBox.forEach((elem: any) => {
@@ -180,29 +192,33 @@ export class DigitalScreenComponent implements OnInit {
     } else {
       this.animation.playSegments([250, 350])
     }
-
-    console.log(this.count)
-    if (this.count === this.itemJson[0].items[0].content.length) {
-      setTimeout(() => {
-        this.question = true
-      }, 2500)
-    }
-
     this.itemJson[0].items.filter((el) =>
       el.active
         ? el.content.length === this.count
-          ? setTimeout(() => {
+          ? (this.rightAnswer.play(),
+            setTimeout(() => {
               this.question = true
-            }, 2500)
-          : false
+            }, 3500))
+          : this.wrongAnswer.play()
         : false,
     )
   }
 
   nextQuestion() {
     this.counter += 1
+    console.log(this.counter)
+
     this.question = false
     this.questionsNumber = this.itemJson[0].items.length
+    if (this.counter > 0) {
+      setTimeout(() => {
+        this.sound.src = '/assets/audios/Q/Q'+this.counter+'.mp3'
+        this.sound.play()
+      }, 1500)
+      this.soundPlay()
+
+
+    }
 
     if (this.questionsNumber != this.counter) {
       this.itemJson[0].items.forEach((element) => {
@@ -215,8 +231,32 @@ export class DigitalScreenComponent implements OnInit {
   home() {
     location.reload()
   }
-  start(event: any) {
-    event.target.classList.remove('startButton')
+  start() {
+    this.bgAudio.src = '/assets/audios/music.mp3'
+    this.muteMusic()
     this.startLo = true
+    setTimeout(() => {
+      this.sound.src = '/assets/audios/Q/Q0.mp3'
+      this.sound.play()
+    }, 1500)
+    this.soundPlay()
+  }
+
+  soundPlay() {
+    this.setInterval = setInterval(() => {
+      this.screenClick += 1
+      if (this.screenClick == 10) {
+        setTimeout(() => {
+          this.sound.src = '/assets/audios/Q/Q0.mp3'
+          this.sound.play()
+          this.screenClick = 0
+        }, 1500)
+      }
+    }, 1000)
+  }
+  setclick() {
+    clearInterval(this.setInterval)
+    this.screenClick = 0
+    this.soundPlay()
   }
 }
