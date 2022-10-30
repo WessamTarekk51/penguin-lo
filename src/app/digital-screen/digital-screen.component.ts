@@ -28,12 +28,90 @@ export class DigitalScreenComponent implements OnInit {
   rightAnswer = new Audio()
   sound = new Audio()
   screenClick: number = 0
+  sec: any
 
   itemJson: jsonFile[] = [
     {
       items: [
         {
           active: true,
+          id: 1,
+          parag:
+            '<span class=text>يوجد</span> <span class="number">86</span> شخصا بالملعب من بينهم <span class="number">2</span> مدرب يريدون تنظيم فريق من <span class="number">11</span> شخص ما الأشخاص المتبقية ',
+          parag2: '=',
+          parag3: '+ 2 -',
+          parag4: '',
+
+          content: [
+            {
+              input: {
+                valid: ['11', '12'],
+              },
+            },
+            {
+              input: {
+                valid: ['11'],
+              },
+            },
+            {
+              input: {
+                valid: ['86'],
+              },
+            },
+          ],
+        },
+        {
+          active: false,
+          id: 2,
+          parag: 'hellossss world',
+          parag2: '',
+          parag3: '',
+          parag4: '',
+          content: [
+            {
+              input: {
+                valid: ['3'],
+              },
+            },
+            {
+              input: {
+                valid: ['4'],
+              },
+            },
+            {
+              input: {
+                valid: ['4'],
+              },
+            },
+          ],
+        },
+        {
+          active: false,
+          id: 2,
+          parag: 'hellossss world',
+          parag2: '',
+          parag3: '',
+          parag4: '',
+          content: [
+            {
+              input: {
+                valid: ['5'],
+              },
+            },
+            {
+              input: {
+                valid: ['6'],
+              },
+            },
+            {
+              input: {
+                valid: ['6'],
+              },
+            },
+          ],
+        },
+        {
+          active: false,
           id: 1,
           parag:
             '<span class=text>يوجد</span> <span class="number">86</span> شخصا بالملعب من بينهم <span class="number">2</span> مدرب يريدون تنظيم فريق من <span class="number">11</span> شخص ما الأشخاص المتبقية ',
@@ -233,7 +311,7 @@ export class DigitalScreenComponent implements OnInit {
               clearInterval(this.setInterval)
               this.screenClick = 0
               this.animation.playSegments([0, 50])
-            }, 3500))
+            }, 5000))
           : this.wrongAnswer.play()
         : false,
     )
@@ -269,19 +347,24 @@ export class DigitalScreenComponent implements OnInit {
     setTimeout(() => {
       this.sound.src = '/assets/audios/Q/Q0.mp3'
       this.sound.play()
-      console.log(this.sound.duration)
-    }, 1500)
+    }, 1000)
     this.soundPlay()
   }
 
   soundPlay() {
     this.sound.src = '/assets/audios/Q/Q' + this.counter + '.mp3'
-    console.log(this.sound)
-    console.log(this.sound.duration)
+    this.sound.addEventListener('loadedmetadata', (event) => {
+      this.sec = this.sound.duration + 10
+      console.log(this.sec)
+    })
+
     this.setInterval = setInterval(() => {
+      console.log(this.sec)
+      console.log(this.screenClick)
+
       this.screenClick += 1
 
-      if (this.screenClick == 10) {
+      if (this.screenClick == Math.floor(this.sec)) {
         setTimeout(() => {
           this.sound.play()
           this.screenClick = 0
