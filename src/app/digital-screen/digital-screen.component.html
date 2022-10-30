@@ -12,14 +12,15 @@
       <div class="border">
         <div class="question" *ngFor="let e of  this.itemJson[0].items" [ngClass]="{'active': e.active}">
           <p class="text" innerHTML="{{e.parag}}"></p>
-          <input class="wrong number" type="text" index="1" (keyup)="maxLength($event,e)" (focus)="foucs($event)"
-            (change)="checkvalue($event,e)">
+
+          <input class="wrong number" type="text" index="1" (keyup)="maxLength($event, e)"
+            (change)="checkvalue($event,e)" (click)="foucs($event)" [attr.maxlength]="1">
           <p class="text" innerHTML="{{e.parag2}}"></p>
-          <input class="wrong text" type="text" index="2" (keyup)="maxLength($event,e)" (focus)="foucs($event)"
-            (change)="checkvalue($event,e)">
+          <input class="wrong number" type="text" index="2" (keyup)="maxLength($event, e)"
+            (change)="checkvalue($event,e)" (click)="foucs($event)"   [attr.maxlength]="1">
           <p class="text" innerHTML="{{e.parag3}}"></p>
-          <input class="wrong text" type="text" index="3" (keyup)="maxLength($event,e)" (focus)="foucs($event)"
-            (change)="checkvalue($event,e)">
+          <input class="wrong number" type="text" index="3" (keyup)="maxLength($event, e)"
+            (change)="checkvalue($event,e)" (click)="foucs($event)"  [attr.maxlength]="1">
           <p class="text" innerHTML="{{e.parag4}}"></p>
         </div>
 

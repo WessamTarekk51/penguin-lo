@@ -28,6 +28,7 @@ export class DigitalScreenComponent implements OnInit {
   rightAnswer = new Audio()
   sound = new Audio()
   screenClick: number = 0
+
   itemJson: jsonFile[] = [
     {
       items: [
@@ -43,7 +44,7 @@ export class DigitalScreenComponent implements OnInit {
           content: [
             {
               input: {
-                valid: ['73'],
+                valid: ['11', '12'],
               },
             },
             {
@@ -76,6 +77,11 @@ export class DigitalScreenComponent implements OnInit {
                 valid: ['4'],
               },
             },
+            {
+              input: {
+                valid: ['4'],
+              },
+            },
           ],
         },
         {
@@ -89,6 +95,11 @@ export class DigitalScreenComponent implements OnInit {
             {
               input: {
                 valid: ['5'],
+              },
+            },
+            {
+              input: {
+                valid: ['6'],
               },
             },
             {
@@ -112,6 +123,7 @@ export class DigitalScreenComponent implements OnInit {
     this.nextQuestion()
     this.wrongAnswer.src = '/assets/audios/WrongAnswer.mp3'
     this.rightAnswer.src = '/assets/audios/RightAnswer.mp3'
+    // this.muteMusic();
   }
   animation: any
   animationSegment: AnimationSegment[] = [
@@ -133,9 +145,15 @@ export class DigitalScreenComponent implements OnInit {
 
   maxLength(event: any, element: any) {
     this.index = event.target.getAttribute('index')
-    const trueValue = element.content[this.index - 1].input.valid[0]
-    let maxLength = trueValue.length
+    console.log(this.index)
+    let max = 0
+    let maxLength
+
+    element.content[this.index - 1].input.valid.forEach((el: any) => {
+      maxLength = max > el.length ? max : el.length
+    })
     event.target.setAttribute('maxlength', maxLength)
+    console.log(maxLength)
   }
 
   foucs(event: any) {
@@ -149,26 +167,39 @@ export class DigitalScreenComponent implements OnInit {
   }
 
   checkvalue(event: any, element: any) {
-    const trueValue = element.content[this.index - 1].input.valid[0]
-    console.log(event.target.value)
-    console.log(trueValue)
-    let maxLength = trueValue.length
-    // console.log(event.target.value)
-    if (event.target.value == null) {
-      event.target.classList.add('wrong')
-      event.target.classList.remove('right')
-      console.log('the value null')
-    } else if (event.target.value.length == maxLength) {
-      if (event.target.value != trueValue) {
-        event.target.classList.remove('right')
-        event.target.classList.add('wrong')
-        console.log('the value wrong')
-      } else {
+    for (const el of element.content[this.index - 1].input.valid) {
+      if (el === event.target.value) {
+        console.log(el)
+        console.log(event.target.value)
+
         event.target.classList.add('right')
         event.target.classList.remove('wrong')
-        console.log('the value ture')
+        break
+      } else {
+        event.target.classList.remove('right')
+        event.target.classList.add('wrong')
       }
     }
+    // const trueValue = element.content[this.index - 1].input.valid[0]
+    // console.log(event.target.value)
+    // console.log(trueValue)
+    // let maxLength = trueValue.length
+    // // console.log(event.target.value)
+    // if (event.target.value == null) {
+    //   event.target.classList.add('wrong')
+    //   event.target.classList.remove('right')
+    //   console.log('the value null')
+    // } else if (event.target.value.length == maxLength) {
+    //   if (event.target.value != trueValue) {
+    //     event.target.classList.remove('right')
+    //     event.target.classList.add('wrong')
+    //     console.log('the value wrong')
+    //   } else {
+    //     event.target.classList.add('right')
+    //     event.target.classList.remove('wrong')
+    //     console.log('the value ture')
+    //   }
+    // }
   }
 
   checkanswer() {
@@ -198,6 +229,10 @@ export class DigitalScreenComponent implements OnInit {
           ? (this.rightAnswer.play(),
             setTimeout(() => {
               this.question = true
+              // stop sound
+              clearInterval(this.setInterval)
+              this.screenClick = 0
+              this.animation.playSegments([0, 50])
             }, 3500))
           : this.wrongAnswer.play()
         : false,
@@ -207,19 +242,15 @@ export class DigitalScreenComponent implements OnInit {
   nextQuestion() {
     this.counter += 1
     console.log(this.counter)
-
     this.question = false
     this.questionsNumber = this.itemJson[0].items.length
     if (this.counter > 0) {
       setTimeout(() => {
-        this.sound.src = '/assets/audios/Q/Q'+this.counter+'.mp3'
+        this.sound.src = '/assets/audios/Q/Q' + this.counter + '.mp3'
         this.sound.play()
       }, 1500)
       this.soundPlay()
-
-
     }
-
     if (this.questionsNumber != this.counter) {
       this.itemJson[0].items.forEach((element) => {
         element.active = false
@@ -238,23 +269,29 @@ export class DigitalScreenComponent implements OnInit {
     setTimeout(() => {
       this.sound.src = '/assets/audios/Q/Q0.mp3'
       this.sound.play()
+      console.log(this.sound.duration)
     }, 1500)
     this.soundPlay()
   }
 
   soundPlay() {
+    this.sound.src = '/assets/audios/Q/Q' + this.counter + '.mp3'
+    console.log(this.sound)
+    console.log(this.sound.duration)
     this.setInterval = setInterval(() => {
       this.screenClick += 1
+
       if (this.screenClick == 10) {
         setTimeout(() => {
-          this.sound.src = '/assets/audios/Q/Q0.mp3'
           this.sound.play()
           this.screenClick = 0
         }, 1500)
       }
     }, 1000)
   }
+
   setclick() {
+    this.sound.pause()
     clearInterval(this.setInterval)
     this.screenClick = 0
     this.soundPlay()
