@@ -108,6 +108,24 @@
     background-repeat: no-repeat;
     cursor: pointer;
   }
+  .button-answer {
+    z-index: 5;
+    position: absolute;
+    display: none;
+    top: 14%;
+    background-image: url(../../assets/penguin/ture.png);
+    width: 13vh;
+    height: 14vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+  .button-display{
+    display: none;
+  }
+  .answer-display{
+    display: block;
+  }
 
 
   .music {

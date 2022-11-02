@@ -8,6 +8,8 @@
       <div class="music" (click)="muteMusic()" [ngClass]="music ? 'play' : 'mute'">
       </div>
       <div class="button-check" (click)="checkanswer()"></div>
+      <div class="button-answer" (click)="answer()"></div>
+      <div class="button-next" (click)="next()"></div>
 
       <div class="border">
         <div class="question" *ngFor="let e of  this.itemJson[0].items" [ngClass]="{'active': e.active}">

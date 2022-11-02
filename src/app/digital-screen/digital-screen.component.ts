@@ -29,12 +29,25 @@ export class DigitalScreenComponent implements OnInit {
   sound = new Audio()
   screenClick: number = 0
   sec: any
+  tryCounter: number = 0
+  btCheck:any
+  btAnswer:any
+  btNext:any
+
+
+  // button-answer: any
+  // button-next: any
+
+
 
   itemJson: jsonFile[] = [
     {
       items: [
         {
           active: true,
+          numberOfinput: 0,
+          correctAnswer: 0,
+          trycounter: 0,
           id: 1,
           parag:
             '<span class=text>يوجد</span> <span class="number">86</span> شخصا بالملعب من بينهم <span class="number">2</span> مدرب يريدون تنظيم فريق من <span class="number">11</span> شخص ما الأشخاص المتبقية ',
@@ -62,6 +75,9 @@ export class DigitalScreenComponent implements OnInit {
         },
         {
           active: false,
+          numberOfinput: 0,
+          correctAnswer: 0,
+          trycounter: 0,
           id: 2,
           parag: 'hellossss world',
           parag2: '',
@@ -87,7 +103,10 @@ export class DigitalScreenComponent implements OnInit {
         },
         {
           active: false,
-          id: 2,
+          numberOfinput: 0,
+          correctAnswer: 0,
+          trycounter: 0,
+          id: 3,
           parag: 'hellossss world',
           parag2: '',
           parag3: '',
@@ -103,16 +122,14 @@ export class DigitalScreenComponent implements OnInit {
                 valid: ['6'],
               },
             },
-            {
-              input: {
-                valid: ['6'],
-              },
-            },
           ],
         },
         {
           active: false,
-          id: 1,
+          numberOfinput: 0,
+          correctAnswer: 0,
+          trycounter: 0,
+          id: 4,
           parag:
             '<span class=text>يوجد</span> <span class="number">86</span> شخصا بالملعب من بينهم <span class="number">2</span> مدرب يريدون تنظيم فريق من <span class="number">11</span> شخص ما الأشخاص المتبقية ',
           parag2: '=',
@@ -139,7 +156,10 @@ export class DigitalScreenComponent implements OnInit {
         },
         {
           active: false,
-          id: 2,
+          numberOfinput: 0,
+          correctAnswer: 0,
+          trycounter: 0,
+          id: 5,
           parag: 'hellossss world',
           parag2: '',
           parag3: '',
@@ -164,7 +184,10 @@ export class DigitalScreenComponent implements OnInit {
         },
         {
           active: false,
-          id: 2,
+          numberOfinput: 0,
+          correctAnswer: 0,
+          trycounter: 0,
+          id: 6,
           parag: 'hellossss world',
           parag2: '',
           parag3: '',
@@ -190,6 +213,7 @@ export class DigitalScreenComponent implements OnInit {
       ],
     },
   ]
+
   constructor(private router: Router) {}
   options: AnimationOptions = {
     path: '/assets/Penguin.json',
@@ -201,6 +225,7 @@ export class DigitalScreenComponent implements OnInit {
     this.nextQuestion()
     this.wrongAnswer.src = '/assets/audios/WrongAnswer.mp3'
     this.rightAnswer.src = '/assets/audios/RightAnswer.mp3'
+    this.numberInput()
     // this.muteMusic();
   }
   animation: any
@@ -280,48 +305,75 @@ export class DigitalScreenComponent implements OnInit {
     // }
   }
 
-  checkanswer() {
-    this.clickBtn.src = '/assets/audios/click_btn.mp3'
-    this.clickBtn.play()
-    this.count = 0
-    this.rightBox = document.querySelectorAll('.active .right')
-    this.rightBox.forEach((elem: any) => {
-      elem.classList.remove('false')
-      elem.classList.add('true')
-      this.count += 1
-    })
-    this.falseBox = document.querySelectorAll('.active .wrong')
-    this.falseBox.forEach((elem: any) => {
-      elem.classList.remove('true')
-      elem.classList.add('false')
-    })
+  // checkanswer() {
+  //   this.tryCounter++
+  //   console.log(this.tryCounter)
 
-    if (this.falseBox.length === 0) {
-      this.animation.playSegments([120, 195])
-    } else {
-      this.animation.playSegments([250, 350])
-    }
-    this.itemJson[0].items.filter((el) =>
-      el.active
-        ? el.content.length === this.count
-          ? (this.rightAnswer.play(),
-            setTimeout(() => {
-              this.question = true
-              // stop sound
-              clearInterval(this.setInterval)
-              this.screenClick = 0
-              this.animation.playSegments([0, 50])
-            }, 5000))
-          : this.wrongAnswer.play()
-        : false,
-    )
-  }
+  //   if (this.tryCounter <= 2) {
+  //     this.clickBtn.src = '/assets/audios/click_btn.mp3'
+  //     this.clickBtn.play()
+  //     this.count = 0
+  //     this.rightBox = document.querySelectorAll('.active .right')
+  //     console.log(this.itemJson)
+  //     this.itemJson[0].items.forEach((el) => {
+  //       if (el.active) {
+  //         el.correctAnswer = document.querySelectorAll('.active .right').length
+  //       }
+  //     })
+  //     this.rightBox.forEach((elem: any) => {
+  //       elem.classList.remove('false')
+  //       elem.classList.add('true')
+  //       this.count += 1
+  //     })
+  //     this.falseBox = document.querySelectorAll('.active .wrong')
+  //     this.falseBox.forEach((elem: any) => {
+  //       elem.classList.remove('true')
+  //       elem.classList.add('false')
+  //     })
+
+  //     if (this.falseBox.length === 0) {
+  //       this.animation.playSegments([120, 195])
+  //     } else {
+  //       this.animation.playSegments([250, 350])
+  //     }
+  //     this.itemJson[0].items.filter((el) =>
+  //       el.active
+  //         ? el.content.length === this.count
+  //           ? (this.rightAnswer.play(),
+  //             setTimeout(() => {
+  //               this.question = true
+  //               // stop sound
+  //               clearInterval(this.setInterval)
+  //               this.screenClick = 0
+  //               this.animation.playSegments([0, 50])
+  //             }, 5000))
+  //           : this.wrongAnswer.play()
+  //         : false,
+  //     )
+
+  //     if(this.tryCounter == 2){
+  //       this.l = document.getElementsByClassName('button-check')
+  //       console.log(this.l)
+  //       for (var i = 0; i < this.l.length; i++) {
+  //         this.l[i].classList.add('button-display')
+  //       }
+  //     }
+  //   }
+
+  // }
 
   nextQuestion() {
     this.counter += 1
-    console.log(this.counter)
     this.question = false
     this.questionsNumber = this.itemJson[0].items.length
+    this.btCheck = document.getElementsByClassName('button-check')
+    for (var i = 0; i < this.btCheck.length; i++) {
+      this.btCheck[i].classList.remove('button-display')
+    }
+    // this.itemJson[0].items[0].numberOfinput = this.itemJson[0].items[0].content.length
+    // console.log( this.itemJson[0].items[0].numberOfinput)
+    console.log(this.questionsNumber)
+    console.log(this.itemJson[0])
     if (this.counter > 0) {
       setTimeout(() => {
         this.sound.src = '/assets/audios/Q/Q' + this.counter + '.mp3'
@@ -334,6 +386,7 @@ export class DigitalScreenComponent implements OnInit {
         element.active = false
       })
       this.itemJson[0].items[this.counter].active = true
+      this.tryCounter = 0
     }
   }
 
@@ -355,12 +408,12 @@ export class DigitalScreenComponent implements OnInit {
     this.sound.src = '/assets/audios/Q/Q' + this.counter + '.mp3'
     this.sound.addEventListener('loadedmetadata', (event) => {
       this.sec = this.sound.duration + 10
-      console.log(this.sec)
+      // console.log(this.sec)
     })
 
     this.setInterval = setInterval(() => {
-      console.log(this.sec)
-      console.log(this.screenClick)
+      // console.log(this.sec)
+      // console.log(this.screenClick)
 
       this.screenClick += 1
 
@@ -379,4 +432,99 @@ export class DigitalScreenComponent implements OnInit {
     this.screenClick = 0
     this.soundPlay()
   }
+  numberInput() {
+    this.itemJson[0].items.forEach((el) => {
+      console.log(el.content.length)
+      el.numberOfinput = el.content.length
+    })
+  }
+
+  checkanswer() {
+    this.itemJson[0].items.forEach((el) => {
+      if (el.active) {
+        this.tryCounter++
+        el.trycounter = this.tryCounter
+        console.log(this.tryCounter)
+      }
+    })
+
+    this.clickBtn.src = '/assets/audios/click_btn.mp3'
+    this.clickBtn.play()
+    this.count = 0
+    this.rightBox = document.querySelectorAll('.active .right')
+    console.log(this.itemJson)
+    this.itemJson[0].items.forEach((el) => {
+      if (el.active) {
+        el.correctAnswer = document.querySelectorAll('.active .right').length
+      }
+    })
+    this.rightBox.forEach((elem: any) => {
+      elem.classList.remove('false')
+      elem.classList.add('true')
+      this.count += 1
+    })
+    this.falseBox = document.querySelectorAll('.active .wrong')
+    this.falseBox.forEach((elem: any) => {
+      elem.classList.remove('true')
+      elem.classList.add('false')
+    })
+    if (this.tryCounter == 1) {
+      if (this.falseBox.length === 0) {
+        this.animation.playSegments([120, 195])
+      } else {
+        this.animation.playSegments([250, 350])
+      }
+      this.itemJson[0].items.filter((el) =>
+        el.active
+          ? el.content.length === this.count
+            ? (this.rightAnswer.play(),
+              setTimeout(() => {
+                this.question = true
+                // stop sound
+                clearInterval(this.setInterval)
+                this.screenClick = 0
+                this.animation.playSegments([0, 50])
+              }, 5000))
+            : this.wrongAnswer.play()
+          : false,
+      )
+    }
+    if (this.tryCounter == 2 || this.tryCounter == 3) {
+      if (this.falseBox.length === 0) {
+        this.animation.playSegments([120, 195])
+        this.rightAnswer.play()
+        setTimeout(() => {
+          this.question = true
+          clearInterval(this.setInterval)
+          this.screenClick = 0
+          this.animation.playSegments([0, 50])
+        }, 5000)
+      } else {
+        // this.tryCounter = 0
+        this.animation.playSegments([250, 350])
+        this.wrongAnswer.play()
+        if(this.tryCounter == 3){
+        this.btAnswer = document.getElementsByClassName('button-answer')
+        console.log(this.btAnswer)
+        for (var i = 0; i < this.btAnswer.length; i++) {
+          this.btAnswer[i].classList.add('answer-display')
+        }
+      }
+      }
+      if (this.tryCounter == 3) {
+        this.btCheck = document.getElementsByClassName('button-check')
+        for (var i = 0; i < this.btCheck.length; i++) {
+          this.btCheck[i].classList.add('button-display')
+        }
+      }
+    }
+  }
+  answer() {}
+  next() {}
+
 }
+
+// this.itemJson[0].items.forEach((el)=>{
+
+//   el.correctAnswer = document.querySelectorAll('.active .right').length
+// })
