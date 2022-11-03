@@ -29,25 +29,23 @@ export class DigitalScreenComponent implements OnInit {
   sound = new Audio()
   screenClick: number = 0
   sec: any
-  tryCounter: number = 0
-  btCheck:any
-  btAnswer:any
-  btNext:any
-
-
-  // button-answer: any
-  // button-next: any
-
-
+  numOfAttempts: number = 0
+  btCheck: any
+  btAnswer: any
+  btNext: any
+  content: any
+  checkBtn: number = 0
+  character: boolean = true
+  inputs: any
 
   itemJson: jsonFile[] = [
     {
       items: [
         {
           active: true,
-          numberOfinput: 0,
-          correctAnswer: 0,
-          trycounter: 0,
+          numberOfquestion: 0,
+          correctCounter: 0,
+          numOfAttempts: 0,
           id: 1,
           parag:
             '<span class=text>يوجد</span> <span class="number">86</span> شخصا بالملعب من بينهم <span class="number">2</span> مدرب يريدون تنظيم فريق من <span class="number">11</span> شخص ما الأشخاص المتبقية ',
@@ -58,26 +56,26 @@ export class DigitalScreenComponent implements OnInit {
           content: [
             {
               input: {
-                valid: ['11', '12'],
+                valid: ['1'],
               },
             },
             {
               input: {
-                valid: ['11'],
+                valid: ['2'],
               },
             },
             {
               input: {
-                valid: ['86'],
+                valid: ['3'],
               },
             },
           ],
         },
         {
           active: false,
-          numberOfinput: 0,
-          correctAnswer: 0,
-          trycounter: 0,
+          numberOfquestion: 0,
+          correctCounter: 0,
+          numOfAttempts: 0,
           id: 2,
           parag: 'hellossss world',
           parag2: '',
@@ -86,26 +84,26 @@ export class DigitalScreenComponent implements OnInit {
           content: [
             {
               input: {
-                valid: ['3'],
-              },
-            },
-            {
-              input: {
                 valid: ['4'],
               },
             },
             {
               input: {
-                valid: ['4'],
+                valid: ['5'],
+              },
+            },
+            {
+              input: {
+                valid: ['6'],
               },
             },
           ],
         },
         {
           active: false,
-          numberOfinput: 0,
-          correctAnswer: 0,
-          trycounter: 0,
+          numberOfquestion: 0,
+          correctCounter: 0,
+          numOfAttempts: 0,
           id: 3,
           parag: 'hellossss world',
           parag2: '',
@@ -122,13 +120,18 @@ export class DigitalScreenComponent implements OnInit {
                 valid: ['6'],
               },
             },
+            {
+              input: {
+                valid: ['6'],
+              },
+            },
           ],
         },
         {
           active: false,
-          numberOfinput: 0,
-          correctAnswer: 0,
-          trycounter: 0,
+          numberOfquestion: 0,
+          correctCounter: 0,
+          numOfAttempts: 0,
           id: 4,
           parag:
             '<span class=text>يوجد</span> <span class="number">86</span> شخصا بالملعب من بينهم <span class="number">2</span> مدرب يريدون تنظيم فريق من <span class="number">11</span> شخص ما الأشخاص المتبقية ',
@@ -156,9 +159,9 @@ export class DigitalScreenComponent implements OnInit {
         },
         {
           active: false,
-          numberOfinput: 0,
-          correctAnswer: 0,
-          trycounter: 0,
+          numberOfquestion: 0,
+          correctCounter: 0,
+          numOfAttempts: 0,
           id: 5,
           parag: 'hellossss world',
           parag2: '',
@@ -184,9 +187,9 @@ export class DigitalScreenComponent implements OnInit {
         },
         {
           active: false,
-          numberOfinput: 0,
-          correctAnswer: 0,
-          trycounter: 0,
+          numberOfquestion: 0,
+          correctCounter: 0,
+          numOfAttempts: 0,
           id: 6,
           parag: 'hellossss world',
           parag2: '',
@@ -251,12 +254,29 @@ export class DigitalScreenComponent implements OnInit {
     console.log(this.index)
     let max = 0
     let maxLength
+    this.checkBtn = 0
+    this.inputs = document.querySelectorAll('.active input')
 
     element.content[this.index - 1].input.valid.forEach((el: any) => {
       maxLength = max > el.length ? max : el.length
     })
     event.target.setAttribute('maxlength', maxLength)
     console.log(maxLength)
+
+    this.inputs.forEach((el: any) => {
+      console.log(el)
+      el.value == '' ? this.checkBtn++ : false
+      console.log("checkBtn = " + this.checkBtn)
+
+    })
+    if (this.checkBtn == 0) {
+      this.btCheck[0]?.classList.add('enable')
+      console.log('checkBtn = ' + this.checkBtn)
+    }
+    else{
+      this.btCheck[0]?.classList.remove('enable')
+
+    }
   }
 
   foucs(event: any) {
@@ -305,73 +325,18 @@ export class DigitalScreenComponent implements OnInit {
     // }
   }
 
-  // checkanswer() {
-  //   this.tryCounter++
-  //   console.log(this.tryCounter)
-
-  //   if (this.tryCounter <= 2) {
-  //     this.clickBtn.src = '/assets/audios/click_btn.mp3'
-  //     this.clickBtn.play()
-  //     this.count = 0
-  //     this.rightBox = document.querySelectorAll('.active .right')
-  //     console.log(this.itemJson)
-  //     this.itemJson[0].items.forEach((el) => {
-  //       if (el.active) {
-  //         el.correctAnswer = document.querySelectorAll('.active .right').length
-  //       }
-  //     })
-  //     this.rightBox.forEach((elem: any) => {
-  //       elem.classList.remove('false')
-  //       elem.classList.add('true')
-  //       this.count += 1
-  //     })
-  //     this.falseBox = document.querySelectorAll('.active .wrong')
-  //     this.falseBox.forEach((elem: any) => {
-  //       elem.classList.remove('true')
-  //       elem.classList.add('false')
-  //     })
-
-  //     if (this.falseBox.length === 0) {
-  //       this.animation.playSegments([120, 195])
-  //     } else {
-  //       this.animation.playSegments([250, 350])
-  //     }
-  //     this.itemJson[0].items.filter((el) =>
-  //       el.active
-  //         ? el.content.length === this.count
-  //           ? (this.rightAnswer.play(),
-  //             setTimeout(() => {
-  //               this.question = true
-  //               // stop sound
-  //               clearInterval(this.setInterval)
-  //               this.screenClick = 0
-  //               this.animation.playSegments([0, 50])
-  //             }, 5000))
-  //           : this.wrongAnswer.play()
-  //         : false,
-  //     )
-
-  //     if(this.tryCounter == 2){
-  //       this.l = document.getElementsByClassName('button-check')
-  //       console.log(this.l)
-  //       for (var i = 0; i < this.l.length; i++) {
-  //         this.l[i].classList.add('button-display')
-  //       }
-  //     }
-  //   }
-
-  // }
-
   nextQuestion() {
     this.counter += 1
+    this.checkBtn = 0
     this.question = false
-    this.questionsNumber = this.itemJson[0].items.length
     this.btCheck = document.getElementsByClassName('button-check')
-    for (var i = 0; i < this.btCheck.length; i++) {
-      this.btCheck[i].classList.remove('button-display')
-    }
-    // this.itemJson[0].items[0].numberOfinput = this.itemJson[0].items[0].content.length
-    // console.log( this.itemJson[0].items[0].numberOfinput)
+    this.btAnswer = document.getElementsByClassName('button-answer')
+    this.btNext = document.getElementsByClassName('button-next')
+    this.questionsNumber = this.itemJson[0].items.length
+    this.btCheck[0]?.classList.remove('button-display')
+    this.btCheck[0]?.classList.remove('enable')
+    this.btAnswer[0]?.classList.remove('answer-display')
+    this.btNext[0]?.classList.remove('next-display')
     console.log(this.questionsNumber)
     console.log(this.itemJson[0])
     if (this.counter > 0) {
@@ -386,10 +351,9 @@ export class DigitalScreenComponent implements OnInit {
         element.active = false
       })
       this.itemJson[0].items[this.counter].active = true
-      this.tryCounter = 0
+      this.numOfAttempts = 0
     }
   }
-
   home() {
     location.reload()
   }
@@ -403,7 +367,6 @@ export class DigitalScreenComponent implements OnInit {
     }, 1000)
     this.soundPlay()
   }
-
   soundPlay() {
     this.sound.src = '/assets/audios/Q/Q' + this.counter + '.mp3'
     this.sound.addEventListener('loadedmetadata', (event) => {
@@ -425,7 +388,6 @@ export class DigitalScreenComponent implements OnInit {
       }
     }, 1000)
   }
-
   setclick() {
     this.sound.pause()
     clearInterval(this.setInterval)
@@ -435,19 +397,19 @@ export class DigitalScreenComponent implements OnInit {
   numberInput() {
     this.itemJson[0].items.forEach((el) => {
       console.log(el.content.length)
-      el.numberOfinput = el.content.length
+      el.numberOfquestion = el.content.length
     })
   }
 
   checkanswer() {
     this.itemJson[0].items.forEach((el) => {
       if (el.active) {
-        this.tryCounter++
-        el.trycounter = this.tryCounter
-        console.log(this.tryCounter)
+        this.numOfAttempts++
+        el.numOfAttempts = this.numOfAttempts
+        console.log(this.numOfAttempts)
+        this.content = el.content
       }
     })
-
     this.clickBtn.src = '/assets/audios/click_btn.mp3'
     this.clickBtn.play()
     this.count = 0
@@ -455,7 +417,7 @@ export class DigitalScreenComponent implements OnInit {
     console.log(this.itemJson)
     this.itemJson[0].items.forEach((el) => {
       if (el.active) {
-        el.correctAnswer = document.querySelectorAll('.active .right').length
+        el.correctCounter = document.querySelectorAll('.active .right').length
       }
     })
     this.rightBox.forEach((elem: any) => {
@@ -464,14 +426,17 @@ export class DigitalScreenComponent implements OnInit {
       this.count += 1
     })
     this.falseBox = document.querySelectorAll('.active .wrong')
+
     this.falseBox.forEach((elem: any) => {
       elem.classList.remove('true')
       elem.classList.add('false')
     })
-    if (this.tryCounter == 1) {
+    if (this.numOfAttempts == 1) {
       if (this.falseBox.length === 0) {
+        this.character = true
         this.animation.playSegments([120, 195])
       } else {
+        this.character = false
         this.animation.playSegments([250, 350])
       }
       this.itemJson[0].items.filter((el) =>
@@ -480,6 +445,7 @@ export class DigitalScreenComponent implements OnInit {
             ? (this.rightAnswer.play(),
               setTimeout(() => {
                 this.question = true
+
                 // stop sound
                 clearInterval(this.setInterval)
                 this.screenClick = 0
@@ -489,8 +455,9 @@ export class DigitalScreenComponent implements OnInit {
           : false,
       )
     }
-    if (this.tryCounter == 2 || this.tryCounter == 3) {
+    if (this.numOfAttempts == 2 || this.numOfAttempts == 3) {
       if (this.falseBox.length === 0) {
+        this.character = true
         this.animation.playSegments([120, 195])
         this.rightAnswer.play()
         setTimeout(() => {
@@ -500,31 +467,32 @@ export class DigitalScreenComponent implements OnInit {
           this.animation.playSegments([0, 50])
         }, 5000)
       } else {
-        // this.tryCounter = 0
+        this.character = false
         this.animation.playSegments([250, 350])
         this.wrongAnswer.play()
-        if(this.tryCounter == 3){
-        this.btAnswer = document.getElementsByClassName('button-answer')
-        console.log(this.btAnswer)
-        for (var i = 0; i < this.btAnswer.length; i++) {
-          this.btAnswer[i].classList.add('answer-display')
+        if (this.numOfAttempts == 3) {
+          // btNext
+          this.btAnswer[0]?.classList.add('answer-display')
         }
       }
-      }
-      if (this.tryCounter == 3) {
-        this.btCheck = document.getElementsByClassName('button-check')
-        for (var i = 0; i < this.btCheck.length; i++) {
-          this.btCheck[i].classList.add('button-display')
-        }
+      if (this.numOfAttempts == 3) {
+        this.btCheck[0]?.classList.add('button-display')
       }
     }
   }
-  answer() {}
-  next() {}
-
+  answer() {
+    this.sound.pause()
+    clearInterval(this.setInterval)
+    this.screenClick = 0
+    this.animation.playSegments([0, 50])
+    document.querySelectorAll('.active .false').forEach((elem: any) => {
+      let index = elem.getAttribute('index') - 1
+      elem.value = this.content[index].input.valid[0]
+    })
+    this.btNext[0]?.classList.add('next-display')
+  }
+  next() {
+    this.character = false
+    this.question = true
+  }
 }
-
-// this.itemJson[0].items.forEach((el)=>{
-
-//   el.correctAnswer = document.querySelectorAll('.active .right').length
-// })

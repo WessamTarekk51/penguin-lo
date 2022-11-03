@@ -10,18 +10,18 @@
       <div class="button-check" (click)="checkanswer()"></div>
       <div class="button-answer" (click)="answer()"></div>
       <div class="button-next" (click)="next()"></div>
-
+      <p>{{3- this.numOfAttempts}}</p>
       <div class="border">
         <div class="question" *ngFor="let e of  this.itemJson[0].items" [ngClass]="{'active': e.active}">
           <p class="text" innerHTML="{{e.parag}}"></p>
           <p class="hi"></p>
-          <input class="wrong number" type="text" index="1" (keyup)="maxLength($event, e)"
+          <input class="wrong number input" type="text" index="1" (keyup)="maxLength($event, e)"
             (change)="checkvalue($event,e)" (click)="foucs($event)" [attr.maxlength]="1">
           <p class="text" innerHTML="{{e.parag2}}"></p>
-          <input class="wrong number" type="text" index="2" (keyup)="maxLength($event, e)"
+          <input class="wrong number input" type="text" index="2" (keyup)="maxLength($event, e)"
             (change)="checkvalue($event,e)" (click)="foucs($event)" [attr.maxlength]="1">
           <p class="text" innerHTML="{{e.parag3}}"></p>
-          <input class="wrong number" type="text" index="3" (keyup)="maxLength($event, e)"
+          <input class="wrong number input" type="text" index="3" (keyup)="maxLength($event, e)"
             (change)="checkvalue($event,e)" (click)="foucs($event)" [attr.maxlength]="1">
           <p class="text" innerHTML="{{e.parag4}}"></p>
         </div>
@@ -42,7 +42,7 @@
 
   <div *ngIf="question">
     <div class="nextContent">
-      <div class="character" class="show{{counter+1}}">
+      <div class="character" [ngClass]="character ? 'show1' : 'show6'">
 
         <div class="buttons">
           <button class="next" (click)="nextQuestion()" *ngIf="this.questionsNumber-1 != this.counter"></button>

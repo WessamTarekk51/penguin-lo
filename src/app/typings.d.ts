@@ -4,9 +4,9 @@ export interface jsonFile {
 }
 export interface value {
   active:boolean,
-  numberOfinput: number,
-  correctAnswer:number,
-  trycounter:number,
+  numberOfquestion: number,
+  correctCounter:number,
+  numOfAttempts:number,
   id: number,
   parag: string,
   parag2: string,
