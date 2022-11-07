@@ -4,45 +4,58 @@
   </div>
 
   <div class="digital-screen" *ngIf="startLo" (click)="setclick()">
+    <div class="music" (click)="muteMusic()" [ngClass]="music ? 'play' : 'mute'">
+    </div>
     <div class="penguin">
-      <div class="music" (click)="muteMusic()" [ngClass]="music ? 'play' : 'mute'">
-      </div>
-      <div class="button-check" (click)="checkanswer()"></div>
-      <div class="button-answer" (click)="answer()"></div>
-      <div class="button-next" (click)="next()"></div>
-      <p>{{3- this.numOfAttempts}}</p>
       <div class="border">
-        <div class="question" *ngFor="let e of  this.itemJson[0].items" [ngClass]="{'active': e.active}">
-          <p class="text" innerHTML="{{e.parag}}"></p>
-          <p class="hi"></p>
-          <input class="wrong number input" type="text" index="1" (keyup)="maxLength($event, e)"
-            (change)="checkvalue($event,e)" (click)="foucs($event)" [attr.maxlength]="1">
-          <p class="text" innerHTML="{{e.parag2}}"></p>
-          <input class="wrong number input" type="text" index="2" (keyup)="maxLength($event, e)"
-            (change)="checkvalue($event,e)" (click)="foucs($event)" [attr.maxlength]="1">
-          <p class="text" innerHTML="{{e.parag3}}"></p>
-          <input class="wrong number input" type="text" index="3" (keyup)="maxLength($event, e)"
-            (change)="checkvalue($event,e)" (click)="foucs($event)" [attr.maxlength]="1">
-          <p class="text" innerHTML="{{e.parag4}}"></p>
+        <div class="button check btn-check" (click)="checkanswer()">
+          <div class="help help-check" *ngIf="this.checkHand"></div>
         </div>
+        <div class="button answer btn-answer" (click)="answer()">
+          <div class="help help-check" *ngIf="this.answerHand"></div>
+        </div>
+        <div class="button next btn-next" (click)="next()">
+          <div class="help help-check" *ngIf="this.nextHand"></div>
+        </div>
+        <div class="try-active">
+          X{{2- this.numOfAttempts}}
+        </div>
+        <div class="question center" *ngFor="let e of  this.itemJson[0].items" [ngClass]="{'active': e.active}">
+          <div class="type-question">
+            <p class="text" *ngFor="let parag of e.parag" innerHTML="{{parag}}"></p>
+            <div class="break"></div>
+            <div class="flex">
+             <div class="center">
+              <input class="wrong number input" type="text" index="1" (keyup)="maxLength($event, e)"
+              (change)="checkvalue($event,e)" (focus)="focusin($event)" (click)="foucs($event);" [attr.maxlength]="1"
+              (focusout)="focusout($event)">
+            <div class="help  help-input" *ngIf="this.helpHand"></div>
+             </div>
+              <img class="image" src="{{e.image}}" alt="">
+              <div class="flex-colum">
+                <p class="text" innerHTML="{{e.parag2}}" style="font-size: 2.5vh;"></p>
+                <p class="text" innerHTML="{{e.parag3}}" style="font-size: 2.5vh;"></p>
+              </div>
+            </div>
+            <p class="text" innerHTML="{{e.parag4}}"></p>
+            <input class="wrong number input" type="text" index="2" (keyup)="maxLength($event, e)"
+              (change)="checkvalue($event,e)" (focus)="focusin($event)" (click)="foucs($event);" [attr.maxlength]="1"
+              (focusout)="focusout($event)">
 
-
+          </div>
+        </div>
       </div>
 
       <div class="penguinCharacter">
         <ng-lottie [options]="options" (animationCreated)="onAnimate($event)">
         </ng-lottie>
       </div>
-
-
     </div>
-
   </div>
-
 
   <div *ngIf="question">
     <div class="nextContent">
-      <div class="character" [ngClass]="character ? 'show1' : 'show6'">
+      <div class="character" [ngClass]="character ? 'feedbacktrue' : 'feedbackfalse'">
 
         <div class="buttons">
           <button class="next" (click)="nextQuestion()" *ngIf="this.questionsNumber-1 != this.counter"></button>

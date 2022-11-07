@@ -37,182 +37,46 @@ export class DigitalScreenComponent implements OnInit {
   checkBtn: number = 0
   character: boolean = true
   inputs: any
+  helpHand: boolean = true
+  checkHand: boolean = false
+  answerHand: boolean = false
+  nextHand: boolean = false
+  try: any
+  border:any
+  containerClass:any
 
   itemJson: jsonFile[] = [
     {
       items: [
         {
+          type: 1,
           active: true,
           numberOfquestion: 0,
           correctCounter: 0,
           numOfAttempts: 0,
           id: 1,
-          parag:
-            '<span class=text>يوجد</span> <span class="number">86</span> شخصا بالملعب من بينهم <span class="number">2</span> مدرب يريدون تنظيم فريق من <span class="number">11</span> شخص ما الأشخاص المتبقية ',
-          parag2: '=',
-          parag3: '+ 2 -',
-          parag4: '',
-
+          image:"/assets/question/1.png",
+          parag: [
+            'قرب العدد 45.29 لأقرب جزء من عشرة.'
+          ],
+          parag2: '22',
+          parag3: '33',
+          parag4: '45.29 ≈ ',
           content: [
             {
+              numOfInput: 2,
               input: {
-                valid: ['1'],
+                valid: ['1', '2'],
               },
             },
             {
-              input: {
-                valid: ['2'],
-              },
-            },
-            {
+              numOfInput: 1,
               input: {
                 valid: ['3'],
               },
-            },
+            }
           ],
-        },
-        {
-          active: false,
-          numberOfquestion: 0,
-          correctCounter: 0,
-          numOfAttempts: 0,
-          id: 2,
-          parag: 'hellossss world',
-          parag2: '',
-          parag3: '',
-          parag4: '',
-          content: [
-            {
-              input: {
-                valid: ['4'],
-              },
-            },
-            {
-              input: {
-                valid: ['5'],
-              },
-            },
-            {
-              input: {
-                valid: ['6'],
-              },
-            },
-          ],
-        },
-        {
-          active: false,
-          numberOfquestion: 0,
-          correctCounter: 0,
-          numOfAttempts: 0,
-          id: 3,
-          parag: 'hellossss world',
-          parag2: '',
-          parag3: '',
-          parag4: '',
-          content: [
-            {
-              input: {
-                valid: ['5'],
-              },
-            },
-            {
-              input: {
-                valid: ['6'],
-              },
-            },
-            {
-              input: {
-                valid: ['6'],
-              },
-            },
-          ],
-        },
-        {
-          active: false,
-          numberOfquestion: 0,
-          correctCounter: 0,
-          numOfAttempts: 0,
-          id: 4,
-          parag:
-            '<span class=text>يوجد</span> <span class="number">86</span> شخصا بالملعب من بينهم <span class="number">2</span> مدرب يريدون تنظيم فريق من <span class="number">11</span> شخص ما الأشخاص المتبقية ',
-          parag2: '=',
-          parag3: '+ 2 -',
-          parag4: '',
-
-          content: [
-            {
-              input: {
-                valid: ['11', '12'],
-              },
-            },
-            {
-              input: {
-                valid: ['11'],
-              },
-            },
-            {
-              input: {
-                valid: ['86'],
-              },
-            },
-          ],
-        },
-        {
-          active: false,
-          numberOfquestion: 0,
-          correctCounter: 0,
-          numOfAttempts: 0,
-          id: 5,
-          parag: 'hellossss world',
-          parag2: '',
-          parag3: '',
-          parag4: '',
-          content: [
-            {
-              input: {
-                valid: ['3'],
-              },
-            },
-            {
-              input: {
-                valid: ['4'],
-              },
-            },
-            {
-              input: {
-                valid: ['4'],
-              },
-            },
-          ],
-        },
-        {
-          active: false,
-          numberOfquestion: 0,
-          correctCounter: 0,
-          numOfAttempts: 0,
-          id: 6,
-          parag: 'hellossss world',
-          parag2: '',
-          parag3: '',
-          parag4: '',
-          content: [
-            {
-              input: {
-                valid: ['5'],
-              },
-            },
-            {
-              input: {
-                valid: ['6'],
-              },
-            },
-            {
-              input: {
-                valid: ['6'],
-              },
-            },
-          ],
-        },
+        }
       ],
     },
   ]
@@ -237,106 +101,41 @@ export class DigitalScreenComponent implements OnInit {
     [120, 195],
     [250, 350],
   ]
-
   onAnimate(animationItem: AnimationItem): void {
     this.animation = animationItem
     console.log(animationItem)
   }
-
+  start() {
+    this.bgAudio.src = '/assets/audios/music.mp3'
+    this.muteMusic()
+    this.startLo = true
+    setTimeout(() => {
+      this.sound.src = '/assets/audios/Q/Q0.mp3'
+      this.sound.play()
+    }, 1000)
+    this.soundPlay()
+  }
   muteMusic() {
     this.music = !this.music
     this.bgAudio.loop = true
     this.bgAudio.paused ? this.bgAudio.play() : this.bgAudio.pause()
   }
-
-  maxLength(event: any, element: any) {
-    this.index = event.target.getAttribute('index')
-    console.log(this.index)
-    let max = 0
-    let maxLength
-    this.checkBtn = 0
-    this.inputs = document.querySelectorAll('.active input')
-
-    element.content[this.index - 1].input.valid.forEach((el: any) => {
-      maxLength = max > el.length ? max : el.length
-    })
-    event.target.setAttribute('maxlength', maxLength)
-    console.log(maxLength)
-
-    this.inputs.forEach((el: any) => {
-      console.log(el)
-      el.value == '' ? this.checkBtn++ : false
-      console.log("checkBtn = " + this.checkBtn)
-
-    })
-    if (this.checkBtn == 0) {
-      this.btCheck[0]?.classList.add('enable')
-      console.log('checkBtn = ' + this.checkBtn)
-    }
-    else{
-      this.btCheck[0]?.classList.remove('enable')
-
-    }
-  }
-
-  foucs(event: any) {
-    this.clickBtn.src = '../../assets/audios/click_btn.mp3'
-    this.clickBtn.play()
-    this.animation.playSegments([0, 50])
-    event.target.classList.remove('false')
-    document.querySelectorAll('.false').forEach((el) => {
-      el.classList.remove('false')
-    })
-  }
-
-  checkvalue(event: any, element: any) {
-    for (const el of element.content[this.index - 1].input.valid) {
-      if (el === event.target.value) {
-        console.log(el)
-        console.log(event.target.value)
-
-        event.target.classList.add('right')
-        event.target.classList.remove('wrong')
-        break
-      } else {
-        event.target.classList.remove('right')
-        event.target.classList.add('wrong')
-      }
-    }
-    // const trueValue = element.content[this.index - 1].input.valid[0]
-    // console.log(event.target.value)
-    // console.log(trueValue)
-    // let maxLength = trueValue.length
-    // // console.log(event.target.value)
-    // if (event.target.value == null) {
-    //   event.target.classList.add('wrong')
-    //   event.target.classList.remove('right')
-    //   console.log('the value null')
-    // } else if (event.target.value.length == maxLength) {
-    //   if (event.target.value != trueValue) {
-    //     event.target.classList.remove('right')
-    //     event.target.classList.add('wrong')
-    //     console.log('the value wrong')
-    //   } else {
-    //     event.target.classList.add('right')
-    //     event.target.classList.remove('wrong')
-    //     console.log('the value ture')
-    //   }
-    // }
-  }
-
   nextQuestion() {
     this.counter += 1
     this.checkBtn = 0
     this.question = false
-    this.btCheck = document.getElementsByClassName('button-check')
-    this.btAnswer = document.getElementsByClassName('button-answer')
-    this.btNext = document.getElementsByClassName('button-next')
+    this.helpHand = true
+    this.btCheck = document.getElementsByClassName('check')
+    this.btAnswer = document.getElementsByClassName('answer')
+    this.btNext = document.getElementsByClassName('next')
+    this.try = document.getElementsByClassName('try-active')
+    this.border = document.getElementsByClassName('border')
     this.questionsNumber = this.itemJson[0].items.length
     this.btCheck[0]?.classList.remove('button-display')
     this.btCheck[0]?.classList.remove('enable')
     this.btAnswer[0]?.classList.remove('answer-display')
     this.btNext[0]?.classList.remove('next-display')
+    this.try[0]?.classList.remove('try')
     console.log(this.questionsNumber)
     console.log(this.itemJson[0])
     if (this.counter > 0) {
@@ -353,19 +152,6 @@ export class DigitalScreenComponent implements OnInit {
       this.itemJson[0].items[this.counter].active = true
       this.numOfAttempts = 0
     }
-  }
-  home() {
-    location.reload()
-  }
-  start() {
-    this.bgAudio.src = '/assets/audios/music.mp3'
-    this.muteMusic()
-    this.startLo = true
-    setTimeout(() => {
-      this.sound.src = '/assets/audios/Q/Q0.mp3'
-      this.sound.play()
-    }, 1000)
-    this.soundPlay()
   }
   soundPlay() {
     this.sound.src = '/assets/audios/Q/Q' + this.counter + '.mp3'
@@ -394,14 +180,69 @@ export class DigitalScreenComponent implements OnInit {
     this.screenClick = 0
     this.soundPlay()
   }
+  maxLength(event: any, element: any) {
+    this.index = event.target.getAttribute('index')
+    console.log(this.index)
+    let max = 0
+    let maxLength
+    this.checkBtn = 0
+
+    element.content[this.index - 1].input.valid.forEach((el: any) => {
+      maxLength = max > el.length ? max : el.length
+    })
+    event.target.setAttribute('maxlength', maxLength)
+    // console.log(maxLength)
+    this.inputs = document.querySelectorAll('.active input')
+
+    this.inputs.forEach((el: any) => {
+      // console.log(el)
+      el.value == '' ? this.checkBtn++ : false
+      console.log('checkBtn = ' + this.checkBtn)
+    })
+    if (this.checkBtn == 0) {
+      this.btCheck[0]?.classList.remove('btn-check')
+      this.btCheck[0]?.classList.add('btn-check-active')
+      this.checkHand = true
+      console.log('checkBtn = ' + this.checkBtn)
+    } else {
+      this.btCheck[0]?.classList.remove('btn-check-active')
+      this.btCheck[0]?.classList.add('btn-check')
+
+      this.checkHand = false
+    }
+  }
+  foucs(event: any) {
+    this.helpHand = false
+    this.clickBtn.src = '../../assets/audios/click_btn.mp3'
+    this.clickBtn.play()
+    this.animation.playSegments([0, 50])
+    event.target.classList.remove('false')
+    document.querySelectorAll('.false').forEach((el) => {
+      el.classList.remove('false')
+    })
+  }
+  checkvalue(event: any, element: any) {
+
+      for (const el of element.content[this.index - 1].input.valid) {
+        if (el === event.target.value) {
+          event.target.classList.add('right')
+          event.target.classList.remove('wrong')
+          break
+        } else {
+          event.target.classList.remove('right')
+          event.target.classList.add('wrong')
+        }
+      }
+
+  }
   numberInput() {
     this.itemJson[0].items.forEach((el) => {
       console.log(el.content.length)
       el.numberOfquestion = el.content.length
     })
   }
-
   checkanswer() {
+    this.checkHand = false
     this.itemJson[0].items.forEach((el) => {
       if (el.active) {
         this.numOfAttempts++
@@ -431,13 +272,34 @@ export class DigitalScreenComponent implements OnInit {
       elem.classList.remove('true')
       elem.classList.add('false')
     })
-    if (this.numOfAttempts == 1) {
+
       if (this.falseBox.length === 0) {
+        this.numOfAttempts -= 1
         this.character = true
         this.animation.playSegments([120, 195])
-      } else {
+        this.rightAnswer.play()
+      }
+
+      else {
+        if(this.numOfAttempts == 1){
         this.character = false
         this.animation.playSegments([250, 350])
+        }
+        if(this.numOfAttempts == 2){
+          this.character = false
+          this.animation.playSegments([250, 350])
+          this.wrongAnswer.play()
+          this.helpHand = false
+          this.answerHand = true
+          this.btAnswer[0]?.classList.remove('btn-answer')
+          this.btAnswer[0]?.classList.add('btn-answer-active')
+          this.btCheck[0]?.classList.remove('btn-check-active')
+          this.btCheck[0]?.classList.add('btn-check')
+          this.try[0]?.classList.add('try')
+          this.inputs.forEach((el: any) => {
+           el.style.cssText="pointer-events: none"
+          })
+        }
       }
       this.itemJson[0].items.filter((el) =>
         el.active
@@ -450,49 +312,57 @@ export class DigitalScreenComponent implements OnInit {
                 clearInterval(this.setInterval)
                 this.screenClick = 0
                 this.animation.playSegments([0, 50])
-              }, 5000))
+              }, 3000))
             : this.wrongAnswer.play()
           : false,
       )
-    }
-    if (this.numOfAttempts == 2 || this.numOfAttempts == 3) {
-      if (this.falseBox.length === 0) {
-        this.character = true
-        this.animation.playSegments([120, 195])
-        this.rightAnswer.play()
-        setTimeout(() => {
-          this.question = true
-          clearInterval(this.setInterval)
-          this.screenClick = 0
-          this.animation.playSegments([0, 50])
-        }, 5000)
-      } else {
-        this.character = false
-        this.animation.playSegments([250, 350])
-        this.wrongAnswer.play()
-        if (this.numOfAttempts == 3) {
-          // btNext
-          this.btAnswer[0]?.classList.add('answer-display')
-        }
-      }
-      if (this.numOfAttempts == 3) {
-        this.btCheck[0]?.classList.add('button-display')
-      }
-    }
   }
   answer() {
+    this.answerHand = false
     this.sound.pause()
     clearInterval(this.setInterval)
     this.screenClick = 0
     this.animation.playSegments([0, 50])
     document.querySelectorAll('.active .false').forEach((elem: any) => {
+      elem.classList.remove('false')
+      elem.classList.add('displayinput')
       let index = elem.getAttribute('index') - 1
       elem.value = this.content[index].input.valid[0]
     })
-    this.btNext[0]?.classList.add('next-display')
+    this.btAnswer[0]?.classList.remove('btn-answer-active')
+    this.btAnswer[0]?.classList.add('btn-answer')
+    this.btNext[0]?.classList.remove('btn-next')
+    this.btNext[0]?.classList.add('btn-next-active')
+    this.nextHand = true
   }
   next() {
+    this.nextHand = false
     this.character = false
     this.question = true
+  }
+  home() {
+    location.reload()
+  }
+  focusin(event: any){
+    this.helpHand = false
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    this.containerClass=document.getElementsByClassName('penguin')
+    console.log(this.containerClass)
+   if(innerWidth > innerHeight){
+    console.log("innerWidth > innerHeight")
+    // console.log(event.target.parentElement.offsetTop)
+    console.log(event.target.offsetTop)
+     if(event.target.offsetTop > innerHeight/3){
+          console.log('event.target.offsetTop < innerHeight/4')
+          // this.border[0]?.classList.add('borderTab')
+          this.border[0].style.cssText =`padding-bottom: ${innerHeight/30}vw`
+          this.border[0].scrollTop =innerHeight / 30
+     }
+    }
+   }
+
+  }
+  focusout(event: any){
+    this.border[0].style.cssText ="padding-bottom: 0vw ;"
   }
 }
