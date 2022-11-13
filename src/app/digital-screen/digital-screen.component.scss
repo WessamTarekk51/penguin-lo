@@ -84,6 +84,7 @@
           width: 7vh;
           height: 8vh;
         }
+
         @keyframes input {
           from {
             top: 2vw;
@@ -106,6 +107,7 @@
           transform: rotate(225deg);
           animation: check .5s linear .2s infinite alternate;
         }
+
         @keyframes check {
           from {
             left: 4vw;
@@ -199,6 +201,9 @@
 
         &.btn-next {
           background-image: url(../../assets/penguin/next.png);
+        }
+        &.pointer-none{
+          pointer-events: none !important;
         }
       }
 
@@ -305,14 +310,38 @@
     background-position: center center;
     background-repeat: no-repeat;
     animation: fade .3s linear;
+    background-image: url(../../assets/penguin/empty.png);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
-    &.feedbacktrue {
-      background-image: url(../../assets/penguin/feedbacktrue.png)
+
+    .penguin {
+      width: 35vh;
+      height: 35vh;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+
+
+      &.feedbacktrue {
+        background-image: url(../../assets/penguin/feedbacktrue.png)
+      }
+
+      &.feedbackfalse {
+        background-image: url(../../assets/penguin/feedbackfalse.png)
+      }
+
     }
 
-    &.feedbackfalse {
-      background-image: url(../../assets/penguin/feedbackfalse.png)
+    .type{
+      margin-top: 1vh;
+      font-size: 7vh;
+      color: #22649C !important;
+    font-weight: bold;
     }
+
+
 
     .buttons {
       position: absolute;
@@ -355,6 +384,7 @@
   }
 
 }
+
 .break {
   flex-basis: 100%;
 }
@@ -363,24 +393,27 @@
 
 
 //style question
-.image{
+.image {
   width: 3vh;
   height: 25vh;
   // padding-left: 2vh;
   padding-right: 5vh;
 }
-.flex{
+
+.flex {
   display: flex;
   width: 100%;
   justify-content: center;
 }
-.center{
+
+.center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.flex-colum{
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
+
+.flex-colum {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }

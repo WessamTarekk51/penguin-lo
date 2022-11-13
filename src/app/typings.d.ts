@@ -1,5 +1,13 @@
 
 export interface jsonFile {
+  counterCorrect: number,
+  LODegree: null,
+  UserDegree: null,
+  type: string,
+  BloomTargets: any,
+  randomNumber: null,
+  loTargets: null,
+  numberOfquestion: number,
   items: value[]
 }
 export interface value {
