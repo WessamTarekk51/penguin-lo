@@ -26,11 +26,12 @@ export interface value {
 }
 
 export interface Content {
-  numOfInput:number;
   input: valid;
 }
 export interface valid {
-  valid: string[]
+  valid: string[];
+  nums: number;
+
 }
 
 

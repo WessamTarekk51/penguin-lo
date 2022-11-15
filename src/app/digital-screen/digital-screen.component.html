@@ -22,15 +22,27 @@
         </div>
         <div class="question center" *ngFor="let e of  this.itemJson[0].items , let index = index"
           [ngClass]="{'active': e.active}">
-          <div class="type-question">
+          <div class="type-question" >
             <p class="text" *ngFor="let parag of e.parag" innerHTML="{{parag}}"></p>
             <div class="break"></div>
             <div class="flex">
               <div class="center">
-                <input class="wrong number input" type="text" index="1" (keyup)="maxLength($event, e)"
-                  (change)="checkvalue($event,e)" (focus)="focusin($event)" (click)="foucs($event);"
+                <ng-container *ngIf="e.type==1">
+                <input class="wrong number input" type="text" index="1" (keyup)="maxLength($event, e)" inputType="1"
+                  (change)="checkvalue($event,e)" (focus)="focusin($event)" (click)="foucs($event) ;"
                   [attr.maxlength]="1" (focusout)="focusout($event)">
                 <div class="help  help-input" *ngIf="this.helpHand && this.counter == 0"></div>
+              </ng-container>
+              <ng-container *ngIf="e.type==2">
+                <ng-container *ngFor="let item of e.content[0]?.input?.valid let idx = index">
+                  <ng-container *ngIf="idx < e.content[0].input.nums">
+                    <input class="wrong" type="text" [attr.index]="idx+1" [attr.maxlength]="1" (keyup)="maxLength($event,e)"
+                      inputType="2" (change)="checkvalue($event,e)" (focus)="focusin($event)" (click)="foucs($event);">
+                    <!-- <div class="help  help-input" *ngIf="this.helpHand && this.counter == 0"></div> -->
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+
               </div>
               <img class="image" src="{{e.image}}" alt="">
               <div class="flex-colum">
@@ -39,11 +51,15 @@
               </div>
             </div>
             <p class="text" innerHTML="{{e.parag4}}"></p>
-            <input class="wrong number input" type="text" index="2" (keyup)="maxLength($event, e)"
+            <ng-container *ngIf="e.type==1">
+            <input class="wrong number input" type="text" index="2" (keyup)="maxLength($event, e)" inputType="1"
               (change)="checkvalue($event,e)" (focus)="focusin($event)" (click)="foucs($event);" [attr.maxlength]="1"
               (focusout)="focusout($event)">
+            </ng-container>
+
 
           </div>
+
         </div>
       </div>
       <div class="penguinCharacter">
@@ -53,19 +69,20 @@
     </div>
   </div>
 
-  <div *ngIf="question" >
+  <div *ngIf="question">
     <div class="nextContent">
-      <div  class="character">
-        <div class="penguin"  *ngIf="counter < this.loQuestion-1" [ngClass]="character ? 'feedbacktrue' : 'feedbackfalse'"></div>
-        <div class="progress" *ngIf="counter >= this.loQuestion-1" >
+      <div class="character">
+        <div class="penguin" *ngIf="counter < this.loQuestion-1"
+          [ngClass]="character ? 'feedbacktrue' : 'feedbackfalse'"></div>
+        <div class="progress" *ngIf="counter >= this.loQuestion-1">
           <ng-lottie [options]="progressbar" (animationCreated)="progressBar($event);calculate()">
           </ng-lottie>
         </div>
-        <div class="type" *ngIf="counter >= this.loQuestion-1" > {{this.Estimation}} </div>
+        <div class="type" *ngIf="counter >= this.loQuestion-1"> {{this.Estimation}} </div>
         <div class="buttons">
+          <button class="home" (click)="home()"></button>
 
           <button class="next" (click)="nextQuestion()" *ngIf="counter < this.loQuestion-1"></button>
-          <button class="home" (click)="home()"></button>
         </div>
       </div>
     </div>

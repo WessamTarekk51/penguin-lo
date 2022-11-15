@@ -45,11 +45,13 @@ export class DigitalScreenComponent implements OnInit {
   border: any
   containerClass: any
   shuffled: value[] = []
-  click:boolean = false
+  click: boolean = false
   result: number = 0
-  loQuestion :number = 6
-  finish :any
-  Estimation:any
+  loQuestion: number = 2
+  finish: any
+  Estimation: any
+  answers: string[] = []
+
   itemJson: jsonFile[] = [
     {
       counterCorrect: 0,
@@ -61,6 +63,27 @@ export class DigitalScreenComponent implements OnInit {
       loTargets: null,
       numberOfquestion: 0,
       items: [
+        {
+          type: 2,
+          id: 1,
+          active: false,
+          numberOfquestion: 0,
+          correctCounter: 0,
+          numOfAttempts: 0,
+          image: '/assets/question/1.png',
+          parag: ['قرب العدد 45.29 لأقرب جزء من عشرة.'],
+          parag2: '45.3',
+          parag3: '45.2',
+          parag4: '45.29 ≈ ',
+          content: [
+            {
+              input: {
+                valid: ['111', '11', '1'],
+                nums: 3,
+              },
+            },
+          ],
+        },
         {
           type: 1,
           id: 1,
@@ -75,210 +98,20 @@ export class DigitalScreenComponent implements OnInit {
           parag4: '45.29 ≈ ',
           content: [
             {
-              numOfInput: 2,
               input: {
-                valid: ['45.25'],
+                valid: ['111', '11', '1'],
+                nums: 3,
               },
             },
             {
-              numOfInput: 1,
               input: {
-                valid: ['45.30','45.3'],
-              },
-            },
-          ],
-        },
-        {
-          type: 1,
-          id: 2,
-          active: false,
-          numberOfquestion: 0,
-          correctCounter: 0,
-          numOfAttempts: 0,
-          image: '/assets/question/1.png',
-          parag: ['قرب العدد 2 لأقرب جزء من عشرة.'],
-          parag2: '22',
-          parag3: '33',
-          parag4: '45.29 ≈ ',
-          content: [
-            {
-              numOfInput: 2,
-              input: {
-                valid: ['1', '2'],
-              },
-            },
-            {
-              numOfInput: 1,
-              input: {
-                valid: ['3'],
-              },
-            },
-          ],
-        },
-        {
-          type: 1,
-          id: 3,
-          active: false,
-          numberOfquestion: 0,
-          correctCounter: 0,
-          numOfAttempts: 0,
-          image: '/assets/question/1.png',
-          parag: ['قرب العدد 3 لأقرب جزء من عشرة.'],
-          parag2: '22',
-          parag3: '33',
-          parag4: '45.29 ≈ ',
-          content: [
-            {
-              numOfInput: 2,
-              input: {
-                valid: ['1', '2'],
-              },
-            },
-            {
-              numOfInput: 1,
-              input: {
-                valid: ['3'],
-              },
-            },
-          ],
-        },
-        {
-          type: 1,
-          id: 4,
-          active: false,
-          numberOfquestion: 0,
-          correctCounter: 0,
-          numOfAttempts: 0,
-          image: '/assets/question/1.png',
-          parag: ['قرب العدد 4 لأقرب جزء من عشرة.'],
-          parag2: '22',
-          parag3: '33',
-          parag4: '45.29 ≈ ',
-          content: [
-            {
-              numOfInput: 2,
-              input: {
-                valid: ['1', '2'],
-              },
-            },
-            {
-              numOfInput: 1,
-              input: {
-                valid: ['3'],
-              },
-            },
-          ],
-        },
-        {
-          type: 1,
-          id: 5,
-          active: false,
-          numberOfquestion: 0,
-          correctCounter: 0,
-          numOfAttempts: 0,
-          image: '/assets/question/1.png',
-          parag: ['قرب العدد 5 لأقرب جزء من عشرة.'],
-          parag2: '22',
-          parag3: '33',
-          parag4: '45.29 ≈ ',
-          content: [
-            {
-              numOfInput: 2,
-              input: {
-                valid: ['1', '2'],
-              },
-            },
-            {
-              numOfInput: 1,
-              input: {
-                valid: ['3'],
-              },
-            },
-          ],
-        },
-        {
-          type: 1,
-          id: 6,
-          active: false,
-          numberOfquestion: 0,
-          correctCounter: 0,
-          numOfAttempts: 0,
-          image: '/assets/question/1.png',
-          parag: ['قرب العدد 6 لأقرب جزء من عشرة.'],
-          parag2: '22',
-          parag3: '33',
-          parag4: '45.29 ≈ ',
-          content: [
-            {
-              numOfInput: 2,
-              input: {
-                valid: ['1', '2'],
-              },
-            },
-            {
-              numOfInput: 1,
-              input: {
-                valid: ['3'],
-              },
-            },
-          ],
-        },
-        {
-          type: 1,
-          id: 7,
-          active: false,
-          numberOfquestion: 0,
-          correctCounter: 0,
-          numOfAttempts: 0,
-          image: '/assets/question/1.png',
-          parag: ['قرب العدد 7 لأقرب جزء من عشرة.'],
-          parag2: '22',
-          parag3: '33',
-          parag4: '45.29 ≈ ',
-          content: [
-            {
-              numOfInput: 2,
-              input: {
-                valid: ['1', '2'],
-              },
-            },
-            {
-              numOfInput: 1,
-              input: {
-                valid: ['3'],
-              },
-            },
-          ],
-        },
-        {
-          type: 1,
-          id: 8,
-          active: false,
-          numberOfquestion: 0,
-          correctCounter: 0,
-          numOfAttempts: 0,
-          image: '/assets/question/1.png',
-          parag: ['قرب العدد 8 لأقرب جزء من عشرة.'],
-          parag2: '22',
-          parag3: '33',
-          parag4: '45.29 ≈ ',
-          content: [
-            {
-              numOfInput: 2,
-              input: {
-                valid: ['1', '2'],
-              },
-            },
-            {
-              numOfInput: 1,
-              input: {
-                valid: ['3'],
+                valid: ['111', '11', '1'],
+                nums: 3,
               },
             },
           ],
         },
       ],
-
     },
   ]
 
@@ -290,7 +123,7 @@ export class DigitalScreenComponent implements OnInit {
     initialSegment: [0, 50],
   }
 
-  progressbar:AnimationOptions={
+  progressbar: AnimationOptions = {
     path: '/assets/progressBar.json',
     autoplay: true,
     loop: false,
@@ -338,11 +171,12 @@ export class DigitalScreenComponent implements OnInit {
     this.bgAudio.paused ? this.bgAudio.play() : this.bgAudio.pause()
   }
   nextQuestion() {
+    this.answers = []
     this.counter += 1
     this.checkBtn = 0
     this.question = false
     this.helpHand = true
-    this.click=false
+    this.click = false
     console.log(this.sound)
     this.sound.src =
       '/assets/audios/Q/Q' + this.itemJson[0].items[this.counter].id + '.mp3'
@@ -353,7 +187,7 @@ export class DigitalScreenComponent implements OnInit {
     this.border = document.getElementsByClassName('border')
     this.questionsNumber = this.itemJson[0].items.length
 
-    this.btCheck[0]?.classList.remove('btn-check-active','pointer-none')
+    this.btCheck[0]?.classList.remove('btn-check-active', 'pointer-none')
     this.btCheck[0]?.classList.add('btn-check')
 
     this.btAnswer[0]?.classList.remove('btn-answer-active')
@@ -383,7 +217,6 @@ export class DigitalScreenComponent implements OnInit {
       this.sec = this.sound.duration + 10
     })
     this.setInterval = setInterval(() => {
-
       this.screenClick += 1
       if (this.screenClick == Math.floor(this.sec)) {
         setTimeout(() => {
@@ -399,20 +232,31 @@ export class DigitalScreenComponent implements OnInit {
     clearInterval(this.setInterval)
     this.screenClick = 0
 
-    if(this.click == false  ){
-    this.soundPlay()
-  }
+    if (this.click == false) {
+      this.soundPlay()
+    }
   }
   maxLength(event: any, element: any) {
-    this.index = event.target.getAttribute('index')
-    let max = 0
-    let maxLength
-    this.checkBtn = 0
+    if (this.answers.length == 0) {
+      this.answers = element.content[0].input.valid.slice()
+    }
 
-    element.content[this.index - 1].input.valid.forEach((el: any) => {
-      maxLength = max > el.length ? max : el.length
-    })
+    this.index = event.target.getAttribute('index')
+    let maxLength = 0
+    this.checkBtn = 0
+    if (element.type == 1) {
+      element.content[this.index - 1].input.valid.forEach((el: any) => {
+        maxLength = maxLength > el.length ? maxLength : el.length
+      })
+    } else {
+      // typessss
+      element.content[0].input.valid.forEach((el: any) => {
+        maxLength = maxLength > el.length ? maxLength : el.length
+        console.log(maxLength)
+      })
+    }
     event.target.setAttribute('maxlength', maxLength)
+
     // console.log(maxLength)
     this.inputs = document.querySelectorAll('.active input')
 
@@ -444,14 +288,34 @@ export class DigitalScreenComponent implements OnInit {
     })
   }
   checkvalue(event: any, element: any) {
-    for (const el of element.content[this.index - 1].input.valid) {
-      if (el === event.target.value) {
-        event.target.classList.add('right')
-        event.target.classList.remove('wrong')
-        break
-      } else {
-        event.target.classList.remove('right')
-        event.target.classList.add('wrong')
+    if (element.type == 1) {
+      for (const el of element.content[this.index - 1].input.valid) {
+        if (el === event.target.value) {
+          event.target.classList.add('right')
+          event.target.classList.remove('wrong')
+          break
+        } else {
+          event.target.classList.remove('right')
+          event.target.classList.add('wrong')
+        }
+      }
+    } else {
+      for (const el of this.answers) {
+        if (el === event.target.value.trim()) {
+          let idx = this.answers.indexOf(event.target.value)
+          // console.log(idx)
+
+          // this.answers.splice(idx, 1)
+          this.answers.splice(idx, 1)
+          // delete this.answers[idx]
+          // console.log(this.answers)
+          event.target.classList.add('right')
+          event.target.classList.remove('wrong')
+          break
+        } else {
+          event.target.classList.remove('right')
+          event.target.classList.add('wrong')
+        }
       }
     }
   }
@@ -497,7 +361,17 @@ export class DigitalScreenComponent implements OnInit {
       this.animation.playSegments([120, 195])
       this.rightAnswer.play()
       this.btCheck[0]?.classList.add('pointer-none')
+      setTimeout(() => {
+        this.click = true
+        // stop sound
+        this.question = true
+        clearInterval(this.setInterval)
+        this.screenClick = 0
+        this.animation.playSegments([0, 50])
+      }, 5000)
+
     } else {
+      this.wrongAnswer.play()
       if (this.numOfAttempts == 1) {
         this.character = false
         this.animation.playSegments([250, 350])
@@ -518,21 +392,23 @@ export class DigitalScreenComponent implements OnInit {
         })
       }
     }
-    this.itemJson[0].items.filter((el) =>
-      el.active
-        ? el.content.length === this.count
-          ? (this.rightAnswer.play(),
-            setTimeout(() => {
-              this.question = true
-              this.click= true
-              // stop sound
-              clearInterval(this.setInterval)
-              this.screenClick = 0
-              this.animation.playSegments([0, 50])
-            }, 3000))
-          : this.wrongAnswer.play()
-        : false,
-    )
+
+    // this.itemJson[0].items.filter((el) =>
+    //   el.active
+    //   ? el.content.length === this.count
+    //       ? (this.rightAnswer.play(),
+    //         setTimeout(() => {
+    //           this.question = true
+    //           this.click = true
+    //           // stop sound
+    //           clearInterval(this.setInterval)
+    //           this.screenClick = 0
+    //           this.animation.playSegments([0, 50])
+    //         }, 3000))
+    //       :
+    //       : false,
+
+    // )
   }
   answer() {
     this.click = true
@@ -540,13 +416,19 @@ export class DigitalScreenComponent implements OnInit {
     console.log(this.sound.pause())
     this.sound.pause()
     this.sound.currentTime = 0
+
     // clearInterval(this.setInterval)
     this.animation.playSegments([0, 50])
-    document.querySelectorAll('.active .false').forEach((elem: any) => {
+    document.querySelectorAll('.active .false').forEach((elem: any, i) => {
+      let type = elem.getAttribute('inputType')
       elem.classList.remove('false')
       elem.classList.add('displayinput')
       let index = elem.getAttribute('index') - 1
-      elem.value = this.content[index].input.valid[0]
+      if (type == 1) {
+        elem.value = this.content[index].input.valid[0]
+      } else {
+        elem.value = this.answers[i]
+      }
     })
     this.btAnswer[0]?.classList.remove('btn-answer-active')
     this.btAnswer[0]?.classList.add('btn-answer')
@@ -590,38 +472,35 @@ export class DigitalScreenComponent implements OnInit {
       a[i] = a[j]
       a[j] = x
     }
-    this.shuffled = a.slice(0,this.loQuestion)
-    console.log(this.shuffled )
+    this.shuffled = a.slice(0, this.loQuestion)
+    console.log(this.shuffled)
   }
   calculate() {
     this.result = 0
     this.itemJson[0].items.forEach((el) => {
-      if(el.correctCounter == el.numberOfquestion){
-        this.result+=(1/el.numOfAttempts)
+      if (el.correctCounter == el.numberOfquestion) {
+        this.result += 1 / el.numOfAttempts
       }
     })
-    console.log((this.result*100)/this.loQuestion)
-    this.finish = (this.result*100)/this.loQuestion
+    console.log((this.result * 100) / this.loQuestion)
+    this.finish = (this.result * 100) / this.loQuestion
     console.log(this.finish)
-      if(this.finish>=1 && this.finish<=50 ){
-       console.log('ضعيف')
-       this.Estimation = 'ضعيف'
-       this.progress.playSegments([0, 20])
-      }
-      if(this.finish>=51 && this.finish<=64 ){
-        console.log('مقبول')
-        this.Estimation = 'مقبول'
-
-       }
-       if(this.finish>=65 && this.finish<=84 ){
-        console.log('جيد ')
-        this.Estimation = 'جيد'
-
-       }
-       if(this.finish>=85 && this.finish<=100 ){
-        console.log('يفوق التوقعات ')
-        this.Estimation = 'يفوق التوقعات '
-
-       }
+    if (this.finish >= 1 && this.finish <= 50) {
+      console.log('ضعيف')
+      this.Estimation = 'ضعيف'
+      this.progress.playSegments([0, 20])
+    }
+    if (this.finish >= 51 && this.finish <= 64) {
+      console.log('مقبول')
+      this.Estimation = 'مقبول'
+    }
+    if (this.finish >= 65 && this.finish <= 84) {
+      console.log('جيد ')
+      this.Estimation = 'جيد'
+    }
+    if (this.finish >= 85 && this.finish <= 100) {
+      console.log('يفوق التوقعات ')
+      this.Estimation = 'يفوق التوقعات '
+    }
   }
 }
