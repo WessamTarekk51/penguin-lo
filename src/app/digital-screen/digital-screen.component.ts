@@ -51,6 +51,7 @@ export class DigitalScreenComponent implements OnInit {
   finish: any
   Estimation: any
   answers: string[] = []
+  l:number=0;
 
   itemJson: jsonFile[] = [
     {
@@ -82,6 +83,7 @@ export class DigitalScreenComponent implements OnInit {
                 nums: 3,
               },
             },
+
           ],
         },
         {
@@ -100,28 +102,33 @@ export class DigitalScreenComponent implements OnInit {
             {
               input: {
                 valid: ['111', '11', '1'],
-                nums: 3,
+                nums: 1,
               },
+
             },
             {
               input: {
                 valid: ['111', '11', '1'],
-                nums: 3,
+                nums: 1,
               },
             },
+
           ],
         },
       ],
     },
   ]
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+
+  }
   options: AnimationOptions = {
-    path: '/assets/Penguin.json',
+    path: '/Penguin.json',
     autoplay: true,
     loop: true,
     initialSegment: [0, 50],
   }
+
 
   progressbar: AnimationOptions = {
     path: '/assets/progressBar.json',
@@ -180,24 +187,12 @@ export class DigitalScreenComponent implements OnInit {
     console.log(this.sound)
     this.sound.src =
       '/assets/audios/Q/Q' + this.itemJson[0].items[this.counter].id + '.mp3'
-    this.btCheck = document.getElementsByClassName('check')
-    this.btAnswer = document.getElementsByClassName('answer')
     this.btNext = document.getElementsByClassName('next')
-    this.try = document.getElementsByClassName('try-active')
     this.border = document.getElementsByClassName('border')
     this.questionsNumber = this.itemJson[0].items.length
 
-    this.btCheck[0]?.classList.remove('btn-check-active', 'pointer-none')
-    this.btCheck[0]?.classList.add('btn-check')
-
-    this.btAnswer[0]?.classList.remove('btn-answer-active')
-    this.btAnswer[0]?.classList.add('btn-answer')
-
     this.btNext[0]?.classList.remove('btn-next-active')
     this.btNext[0]?.classList.add('btn-next')
-
-    this.try[0]?.classList.remove('try')
-
     if (this.counter > 0) {
       setTimeout(() => {
         this.sound.play()
@@ -265,17 +260,17 @@ export class DigitalScreenComponent implements OnInit {
       el.value == '' ? this.checkBtn++ : false
       // console.log('checkBtn = ' + this.checkBtn)
     })
-    if (this.checkBtn == 0) {
-      this.btCheck[0]?.classList.remove('btn-check')
-      this.btCheck[0]?.classList.add('btn-check-active')
-      this.checkHand = true
-      // console.log('checkBtn = ' + this.checkBtn)
-    } else {
-      this.btCheck[0]?.classList.remove('btn-check-active')
-      this.btCheck[0]?.classList.add('btn-check')
+    // if (this.checkBtn == 0) {
+    //   this.btCheck[0]?.classList.remove('btn-check')
+    //   this.btCheck[0]?.classList.add('btn-check-active')
+    //   this.checkHand = true
+    //   // console.log('checkBtn = ' + this.checkBtn)
+    // } else {
+    //   this.btCheck[0]?.classList.remove('btn-check-active')
+    //   this.btCheck[0]?.classList.add('btn-check')
 
-      this.checkHand = false
-    }
+    //   this.checkHand = false
+    // }
   }
   foucs(event: any) {
     this.helpHand = false
@@ -283,54 +278,79 @@ export class DigitalScreenComponent implements OnInit {
     this.clickBtn.play()
     this.animation.playSegments([0, 50])
     event.target.classList.remove('false')
-    document.querySelectorAll('.false').forEach((el) => {
-      el.classList.remove('false')
-    })
+
   }
   checkvalue(event: any, element: any) {
+    this.l++
     if (element.type == 1) {
       for (const el of element.content[this.index - 1].input.valid) {
-        if (el === event.target.value) {
+        if (el === event.target.value.trim()) {
           event.target.classList.add('right')
           event.target.classList.remove('wrong')
+          event.target.classList.remove('emptyInput')
           break
         } else {
           event.target.classList.remove('right')
           event.target.classList.add('wrong')
+          event.target.classList.add('emptyInput')
         }
       }
     } else {
       for (const el of this.answers) {
         if (el === event.target.value.trim()) {
           let idx = this.answers.indexOf(event.target.value)
-          // console.log(idx)
-
-          // this.answers.splice(idx, 1)
           this.answers.splice(idx, 1)
-          // delete this.answers[idx]
-          // console.log(this.answers)
           event.target.classList.add('right')
           event.target.classList.remove('wrong')
+          event.target.classList.remove('emptyInput')
           break
         } else {
           event.target.classList.remove('right')
           event.target.classList.add('wrong')
+          event.target.classList.add('emptyInput')
         }
       }
     }
+
+
+
+    this.itemJson[0].items.forEach((el) => {
+      if (el.active) {
+        el.correctCounter = document.querySelectorAll('.active .right').length
+        if (element.correctCounter == element.numberOfquestion) {
+          this.character = true
+          this.animation.playSegments([120, 195])
+          this.rightAnswer.play()
+          setTimeout(() => {
+            this.click = true
+            this.question = true
+            clearInterval(this.setInterval)
+            this.screenClick = 0
+            this.animation.playSegments([0, 50])
+          }, 5000)
+        }
+      }
+    })
+
   }
   numberInput() {
     this.itemJson[0].items.forEach((el) => {
       // console.log(el.content.length)
+      if(el.type==1){
       el.numberOfquestion = el.content.length
+      }
+      else{
+       el.content.forEach((elem)=>{
+        el.numberOfquestion =+ elem.input.nums
+       })
+      }
     })
   }
   checkanswer() {
     this.checkHand = false
+    this.l++
     this.itemJson[0].items.forEach((el) => {
       if (el.active) {
-        this.numOfAttempts++
-        el.numOfAttempts = this.numOfAttempts
         this.content = el.content
       }
     })
@@ -345,22 +365,23 @@ export class DigitalScreenComponent implements OnInit {
     })
     this.rightBox.forEach((elem: any) => {
       elem.classList.remove('false')
+      elem.classList.remove('emptyInput')
       elem.classList.add('true')
       this.count += 1
     })
-    this.falseBox = document.querySelectorAll('.active .wrong')
+    this.falseBox = document.querySelectorAll('.active .emptyInput')
 
     this.falseBox.forEach((elem: any) => {
       elem.classList.remove('true')
       elem.classList.add('false')
+      elem.classList.add('emptyInput')
+
     })
 
     if (this.falseBox.length === 0) {
-      this.numOfAttempts -= 1
       this.character = true
       this.animation.playSegments([120, 195])
       this.rightAnswer.play()
-      this.btCheck[0]?.classList.add('pointer-none')
       setTimeout(() => {
         this.click = true
         // stop sound
@@ -372,66 +393,53 @@ export class DigitalScreenComponent implements OnInit {
 
     } else {
       this.wrongAnswer.play()
-      if (this.numOfAttempts == 1) {
-        this.character = false
-        this.animation.playSegments([250, 350])
-      }
-      if (this.numOfAttempts == 2) {
         this.character = false
         this.animation.playSegments([250, 350])
         this.wrongAnswer.play()
         this.helpHand = false
         this.answerHand = true
-        this.btAnswer[0]?.classList.remove('btn-answer')
-        this.btAnswer[0]?.classList.add('btn-answer-active')
-        this.btCheck[0]?.classList.remove('btn-check-active')
-        this.btCheck[0]?.classList.add('btn-check')
-        this.try[0]?.classList.add('try')
-        this.inputs.forEach((el: any) => {
-          el.style.cssText = 'pointer-events: none'
-        })
-      }
+        // this.inputs.forEach((el: any) => {
+        //   el.style.cssText = 'pointer-events: none'
+        // })
+      // }
     }
 
-    // this.itemJson[0].items.filter((el) =>
-    //   el.active
-    //   ? el.content.length === this.count
-    //       ? (this.rightAnswer.play(),
-    //         setTimeout(() => {
-    //           this.question = true
-    //           this.click = true
-    //           // stop sound
-    //           clearInterval(this.setInterval)
-    //           this.screenClick = 0
-    //           this.animation.playSegments([0, 50])
-    //         }, 3000))
-    //       :
-    //       : false,
 
-    // )
   }
   answer() {
+    this.itemJson[0].items.filter((el) => {
+      if (el.active) {
+        this.content = el.content
+        if (this.answers.length == 0) {
+          this.answers = el.content[0].input.valid.slice();
+        }
+      }
+    });
+
     this.click = true
     this.answerHand = false
     console.log(this.sound.pause())
     this.sound.pause()
     this.sound.currentTime = 0
-
-    // clearInterval(this.setInterval)
     this.animation.playSegments([0, 50])
-    document.querySelectorAll('.active .false').forEach((elem: any, i) => {
+    document.querySelectorAll('.active .emptyInput').forEach((elem: any, i) => {
+      console.log(elem)
       let type = elem.getAttribute('inputType')
-      elem.classList.remove('false')
       elem.classList.add('displayinput')
+      elem.classList.remove('false')
+      elem.classList.remove('wrong')
       let index = elem.getAttribute('index') - 1
+      console.log("ddddddddd" + index)
+      console.log(type)
       if (type == 1) {
         elem.value = this.content[index].input.valid[0]
       } else {
+        console.log(this.answers[i])
         elem.value = this.answers[i]
+        console.log("value"+ " " +"type 2" +" " + elem.value)
+
       }
     })
-    this.btAnswer[0]?.classList.remove('btn-answer-active')
-    this.btAnswer[0]?.classList.add('btn-answer')
     this.btNext[0]?.classList.remove('btn-next')
     this.btNext[0]?.classList.add('btn-next-active')
     this.nextHand = true

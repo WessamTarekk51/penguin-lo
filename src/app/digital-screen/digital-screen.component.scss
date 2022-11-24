@@ -189,6 +189,7 @@
         &.btn-next-active {
           background-image: url(../../assets/penguin/next-active.png);
           pointer-events: auto;
+          opacity: 1;
         }
 
         &.btn-check {
@@ -201,6 +202,7 @@
 
         &.btn-next {
           background-image: url(../../assets/penguin/next.png);
+          opacity: 0;
         }
         &.pointer-none{
           pointer-events: none !important;
@@ -257,13 +259,13 @@
           color: #ffff;
           margin: 1vw;
 
-          &.true {
+          &.true,&.right{
             background-image: url(/assets/penguin/true.png) !important;
             pointer-events: none;
 
           }
 
-          &.false {
+          &.false,&.wrong {
             background-image: url(/assets/penguin/false.png) !important;
 
           }
